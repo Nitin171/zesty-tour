@@ -2,43 +2,48 @@
 
 A modern travel planning application with a beautiful UI for planning personalized trips.
 
-## Features
+![Zesty Tour](https://img.shields.io/badge/Status-Live-brightgreen)
+![Node.js](https://img.shields.io/badge/Node.js-14+-green)
+![License](https://img.shields.io/badge/License-ISC-blue)
+
+## 🌟 Features
 
 - **Beautiful Landing Page**: Modern design with popular destinations
 - **Trip Planning Wizard**: Multi-step form for creating personalized trips
 - **Backend API**: Node.js server with SQLite database
 - **Responsive Design**: Works on desktop and mobile devices
+- **Interactive UI**: Smooth animations and user-friendly interface
 
-## Prerequisites
+## 🚀 Live Demo
+
+[View Live Demo](https://your-username.github.io/zesty-tour-app)
+
+## 📋 Prerequisites
 
 - Node.js (v14 or higher)
 - npm (comes with Node.js)
 - Python 3 (for serving frontend files)
 
-## Installation
+## 🛠️ Installation
 
-1. Clone or download the project files
-2. Navigate to the project directory:
+1. **Clone the repository**
    ```bash
-   cd APP
+   git clone https://github.com/YOUR_USERNAME/zesty-tour-app.git
+   cd zesty-tour-app
    ```
 
-3. Install dependencies:
+2. **Install dependencies**
    ```bash
    npm install
    ```
 
-## Running the Application
+## 🏃‍♂️ Running the Application
 
 ### Option 1: Run both servers separately
 
 1. **Start the Backend Server** (in one terminal):
    ```bash
    npm start
-   ```
-   or
-   ```bash
-   node backend/server.js
    ```
    The backend will run on http://localhost:3001
 
@@ -49,17 +54,18 @@ A modern travel planning application with a beautiful UI for planning personaliz
    ```
    The frontend will be available at http://localhost:8000
 
-### Option 2: Use a simple HTTP server
+### Option 2: Use provided scripts
 
-If you have any HTTP server available, you can serve the `frontend` folder directly.
+- **Windows**: Run `start-app.bat` or `start-app.ps1`
+- **Debug mode**: Run `debug.bat` for debugging
 
-## Accessing the Application
+## 🌐 Accessing the Application
 
 1. Open your web browser
 2. Navigate to: `http://localhost:8000`
 3. You should see the Zesty Tour landing page
 
-## API Endpoints
+## 📡 API Endpoints
 
 The backend provides the following API endpoints:
 
@@ -67,38 +73,24 @@ The backend provides the following API endpoints:
 - `POST /api/recipes` - Add a new recipe
 - `POST /api/tour-details` - Save tour planning details
 
-## Project Structure
+## 📁 Project Structure
 
 ```
-APP/
+zesty-tour-app/
 ├── backend/
-│   └── server.js          # Node.js backend server
+│   ├── server.js          # Node.js backend server
+│   └── db.sqlite         # SQLite database
 ├── frontend/
 │   ├── index.html         # Main landing page
 │   ├── plan.html          # Trip planning wizard
 │   ├── app.js            # Frontend JavaScript
 │   └── images/           # Destination images
 ├── package.json           # Node.js dependencies
-└── README.md             # This file
+├── README.md             # This file
+└── .gitignore           # Git ignore file
 ```
 
-## Troubleshooting
-
-### If the backend won't start:
-- Make sure Node.js is installed
-- Run `npm install` to install dependencies
-- Check if port 3001 is available
-
-### If the frontend won't load:
-- Make sure Python is installed
-- Check if port 8000 is available
-- Try a different port: `python -m http.server 8080`
-
-### If images don't load:
-- Make sure all image files are in the `frontend/images/` directory
-- Check that the image paths in HTML files are correct
-
-## Features Overview
+## 🎨 Features Overview
 
 ### Landing Page (`index.html`)
 - Beautiful hero section with search functionality
@@ -120,7 +112,7 @@ APP/
 - CORS enabled for frontend communication
 - Error handling and validation
 
-## Technologies Used
+## 🛠️ Technologies Used
 
 - **Frontend**: HTML5, CSS3 (Tailwind CSS), JavaScript
 - **Backend**: Node.js, Express.js
@@ -128,7 +120,7 @@ APP/
 - **Icons**: Font Awesome
 - **Styling**: Tailwind CSS
 
-## Development
+## 🔧 Development
 
 To modify the application:
 
@@ -137,6 +129,40 @@ To modify the application:
 3. Update backend logic in `backend/server.js`
 4. Restart servers after making changes
 
-## License
+## 🐛 Troubleshooting
 
-This project is for educational purposes. 
+### If the backend won't start:
+- Make sure Node.js is installed
+- Run `npm install` to install dependencies
+- Check if port 3001 is available
+
+### If the frontend won't load:
+- Make sure Python is installed
+- Check if port 8000 is available
+- Try a different port: `python -m http.server 8080`
+
+### If images don't load:
+- Make sure all image files are in the `frontend/images/` directory
+- Check that the image paths in HTML files are correct
+
+## 📝 Contributing
+
+1. Fork the repository
+2. Create your feature branch (`git checkout -b feature/AmazingFeature`)
+3. Commit your changes (`git commit -m 'Add some AmazingFeature'`)
+4. Push to the branch (`git push origin feature/AmazingFeature`)
+5. Open a Pull Request
+
+## 📄 License
+
+This project is licensed under the ISC License.
+
+## 🙏 Acknowledgments
+
+- Tailwind CSS for the beautiful styling
+- Font Awesome for the icons
+- Unsplash for the beautiful images
+
+---
+
+**Made with ❤️ for travel enthusiasts** 
