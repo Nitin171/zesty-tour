@@ -1,0 +1,623 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Plan Your Trip - Zesty Tour</title>
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body class="bg-gray-50 font-sans min-h-screen">
+  <!-- Top Navigation -->
+  <div class="bg-white shadow">
+    <div class="max-w-3xl mx-auto px-4 py-4 flex items-center">
+      <a href="index.html" class="text-2xl text-blue-900 mr-4"><i class="fa fa-arrow-left"></i></a>
+      <h2 class="text-2xl font-bold text-gray-800 mx-auto">Plan Your Trip</h2>
+    </div>
+  </div>
+
+  <!-- Progress Bar -->
+  <div class="max-w-3xl mx-auto px-4 mt-8">
+    <div class="flex items-center justify-center gap-4" id="progress-bar">
+      <div class="flex flex-col items-center">
+        <div class="w-10 h-10 rounded-full flex items-center justify-center font-bold step-circle step-1">1</div>
+      </div>
+      <div class="w-12 h-1 step-line-1"></div>
+      <div class="flex flex-col items-center">
+        <div class="w-10 h-10 rounded-full flex items-center justify-center font-bold step-circle step-2">2</div>
+      </div>
+      <div class="w-12 h-1 step-line-2"></div>
+      <div class="flex flex-col items-center">
+        <div class="w-10 h-10 rounded-full flex items-center justify-center font-bold step-circle step-3">3</div>
+      </div>
+      <div class="w-12 h-1 step-line-3"></div>
+      <div class="flex flex-col items-center">
+        <div class="w-10 h-10 rounded-full flex items-center justify-center font-bold step-circle step-4">4</div>
+      </div>
+      <div class="w-12 h-1 step-line-4"></div>
+      <div class="flex flex-col items-center">
+        <div class="w-10 h-10 rounded-full flex items-center justify-center font-bold step-circle step-5">5</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Step 1: Trip Basics -->
+  <div id="step-1" class="max-w-3xl mx-auto px-4 mt-10">
+    <div class="bg-white rounded-2xl shadow-lg p-8">
+      <h2 class="text-3xl font-bold text-gray-800 mb-6">Trip Basics</h2>
+      <form>
+        <div class="mb-6">
+          <label class="block text-gray-700 font-semibold mb-2" for="start-location">Start Location</label>
+          <input id="start-location" type="text" placeholder="Enter starting point" class="w-full border border-gray-300 rounded-lg px-4 py-3 focus:outline-none focus:ring-2 focus:ring-blue-400 text-lg" />
+        </div>
+        <div class="mb-6">
+          <label class="block text-gray-700 font-semibold mb-2" for="destination">Destination</label>
+          <input id="destination" type="text" placeholder="Enter destination" class="w-full border border-gray-300 rounded-lg px-4 py-3 focus:outline-none focus:ring-2 focus:ring-blue-400 text-lg" />
+        </div>
+        <div class="flex flex-col md:flex-row gap-4 mb-8">
+          <div class="flex-1">
+            <label class="block text-gray-700 font-semibold mb-2" for="start-date">Start Date</label>
+            <input id="start-date" type="date" class="w-full border border-gray-300 rounded-lg px-4 py-3 focus:outline-none focus:ring-2 focus:ring-blue-400 text-lg" />
+          </div>
+          <div class="flex-1">
+            <label class="block text-gray-700 font-semibold mb-2" for="end-date">End Date</label>
+            <input id="end-date" type="date" class="w-full border border-gray-300 rounded-lg px-4 py-3 focus:outline-none focus:ring-2 focus:ring-blue-400 text-lg" />
+          </div>
+        </div>
+        <div class="flex justify-end">
+          <button id="next-1" type="button" class="w-32 bg-gray-300 text-gray-500 font-bold py-3 rounded-xl text-lg cursor-not-allowed" disabled>Next</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Step 2: Customize Experience -->
+  <div id="step-2" class="max-w-5xl mx-auto px-4 mt-10 hidden">
+    <div class="bg-white rounded-2xl shadow-lg p-8">
+      <h2 class="text-3xl font-bold text-gray-800 mb-6">Customize Experience</h2>
+      <div class="mb-8">
+        <h3 class="text-xl font-bold text-gray-700 mb-4">Package</h3>
+        <div id="package-grid" class="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <div class="package-card cursor-pointer rounded-2xl overflow-hidden border-2 border-transparent transition flex flex-col" data-package="Basic">
+            <div class="bg-blue-400 p-4 flex justify-between items-center">
+              <span class="text-white font-bold text-lg">Basic</span>
+              <span class="text-white font-bold text-lg">$</span>
+            </div>
+            <div class="bg-white px-4 pb-4 pt-3 text-gray-700 flex-1">Essential travel experience with budget-friendly options</div>
+          </div>
+          <div class="package-card cursor-pointer rounded-2xl overflow-hidden border-2 border-transparent transition flex flex-col" data-package="Standard">
+            <div class="bg-green-400 p-4 flex justify-between items-center">
+              <span class="text-white font-bold text-lg">Standard</span>
+              <span class="text-white font-bold text-lg">$$</span>
+            </div>
+            <div class="bg-white px-4 pb-4 pt-3 text-gray-700 flex-1">Comfortable travel with quality accommodations and experiences</div>
+          </div>
+          <div class="package-card cursor-pointer rounded-2xl overflow-hidden border-2 border-transparent transition flex flex-col" data-package="Premium">
+            <div class="bg-orange-400 p-4 flex justify-between items-center">
+              <span class="text-white font-bold text-lg">Premium</span>
+              <span class="text-white font-bold text-lg">$$$</span>
+            </div>
+            <div class="bg-white px-4 pb-4 pt-3 text-gray-700 flex-1">Enhanced travel with premium amenities and exclusive experiences</div>
+          </div>
+          <div class="package-card cursor-pointer rounded-2xl overflow-hidden border-2 border-transparent transition flex flex-col" data-package="Luxury">
+            <div class="bg-purple-400 p-4 flex justify-between items-center">
+              <span class="text-white font-bold text-lg">Luxury</span>
+              <span class="text-white font-bold text-lg">$$$$</span>
+            </div>
+            <div class="bg-white px-4 pb-4 pt-3 text-gray-700 flex-1">First-class travel with luxury accommodations and VIP experiences</div>
+          </div>
+        </div>
+      </div>
+      <div class="mb-8">
+        <h3 class="text-xl font-bold text-gray-700 mb-4">Age Group</h3>
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-4" id="age-group-grid">
+          <div class="age-card bg-white rounded-lg p-6 flex flex-col items-center border border-gray-200 cursor-pointer transition" data-age="18-25">
+            <i class="fa-solid fa-graduation-cap text-blue-400 text-2xl mb-2"></i>
+            <span class="text-gray-700 font-semibold">18-25</span>
+          </div>
+          <div class="age-card bg-white rounded-lg p-6 flex flex-col items-center border border-gray-200 cursor-pointer transition" data-age="26-35">
+            <i class="fa-solid fa-briefcase text-blue-400 text-2xl mb-2"></i>
+            <span class="text-gray-700 font-semibold">26-35</span>
+          </div>
+          <div class="age-card bg-white rounded-lg p-6 flex flex-col items-center border border-gray-200 cursor-pointer transition" data-age="36-50">
+            <i class="fa-solid fa-building text-blue-400 text-2xl mb-2"></i>
+            <span class="text-gray-700 font-semibold">36-50</span>
+          </div>
+          <div class="age-card bg-white rounded-lg p-6 flex flex-col items-center border border-gray-200 cursor-pointer transition" data-age="50+">
+            <i class="fa-solid fa-flag text-blue-400 text-2xl mb-2"></i>
+            <span class="text-gray-700 font-semibold">50+</span>
+          </div>
+        </div>
+      </div>
+      <div class="mb-8">
+        <h3 class="text-xl font-bold text-gray-700 mb-4">Travel Style</h3>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4" id="travel-style-grid">
+          <div class="travel-card bg-white rounded-lg p-6 flex items-center border border-gray-200 cursor-pointer transition" data-style="Adventure">
+            <i class="fa-solid fa-compass text-blue-400 text-2xl mr-4"></i>
+            <span class="text-gray-700 font-semibold">Adventure</span>
+          </div>
+          <div class="travel-card bg-white rounded-lg p-6 flex items-center border border-gray-200 cursor-pointer transition" data-style="Relaxation">
+            <i class="fa-solid fa-sun text-blue-400 text-2xl mr-4"></i>
+            <span class="text-gray-700 font-semibold">Relaxation</span>
+          </div>
+          <div class="travel-card bg-white rounded-lg p-6 flex items-center border border-gray-200 cursor-pointer transition" data-style="Cultural">
+            <i class="fa-solid fa-book text-blue-400 text-2xl mr-4"></i>
+            <span class="text-gray-700 font-semibold">Cultural</span>
+          </div>
+          <div class="travel-card bg-white rounded-lg p-6 flex items-center border border-gray-200 cursor-pointer transition" data-style="Nature">
+            <i class="fa-solid fa-leaf text-blue-400 text-2xl mr-4"></i>
+            <span class="text-gray-700 font-semibold">Nature</span>
+          </div>
+        </div>
+      </div>
+      <div class="flex justify-between mt-8">
+        <button id="back-2" type="button" class="w-32 border-2 border-blue-400 text-blue-500 font-bold py-3 rounded-xl text-lg bg-white hover:bg-blue-50">Back</button>
+        <button id="next-2" type="button" class="w-32 bg-gray-300 text-gray-500 font-bold py-3 rounded-xl text-lg cursor-not-allowed" disabled>Next</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Step 3: Budget & Transportation -->
+  <div id="step-3" class="max-w-5xl mx-auto px-4 mt-10 hidden">
+    <div class="bg-white rounded-2xl shadow-lg p-8">
+      <h2 class="text-3xl font-bold text-gray-800 mb-6">Budget & Transportation</h2>
+      <div class="mb-10">
+        <div class="flex flex-col items-center">
+          <div class="text-4xl font-bold text-blue-500 mb-1" id="budget-value">$50</div>
+          <div class="text-gray-500 mb-4">per day</div>
+          <input id="budget-slider" type="range" min="50" max="1000" value="50" step="1" class="w-full md:w-3/4 accent-teal-600" />
+          <div class="flex justify-between w-full md:w-3/4 text-gray-400 text-sm mt-2">
+            <span>$50</span>
+            <span>$1000</span>
+          </div>
+          <div class="mt-6">
+            <div class="bg-gray-100 rounded-xl px-6 py-3 text-xl font-semibold text-gray-700">Total Budget <span class="text-blue-700 font-bold" id="total-budget">$400</span></div>
+          </div>
+        </div>
+      </div>
+      <div class="mb-8">
+        <h3 class="text-xl font-bold text-gray-700 mb-4">Transportation</h3>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4" id="transport-grid">
+          <div class="transport-card bg-white rounded-lg p-6 flex items-center border border-gray-200 cursor-pointer transition" data-transport="Car">
+            <i class="fa-solid fa-car-side text-blue-400 text-2xl mr-4"></i>
+            <span class="text-gray-700 font-semibold">Car</span>
+          </div>
+          <div class="transport-card bg-white rounded-lg p-6 flex items-center border border-gray-200 cursor-pointer transition" data-transport="Train">
+            <i class="fa-solid fa-train text-blue-400 text-2xl mr-4"></i>
+            <span class="text-gray-700 font-semibold">Train</span>
+          </div>
+          <div class="transport-card bg-white rounded-lg p-6 flex items-center border border-gray-200 cursor-pointer transition" data-transport="Flight">
+            <i class="fa-solid fa-plane text-blue-400 text-2xl mr-4"></i>
+            <span class="text-gray-700 font-semibold">Flight</span>
+          </div>
+          <div class="transport-card bg-white rounded-lg p-6 flex items-center border border-gray-200 cursor-pointer transition" data-transport="Bus">
+            <i class="fa-solid fa-bus text-blue-400 text-2xl mr-4"></i>
+            <span class="text-gray-700 font-semibold">Bus</span>
+          </div>
+          <div class="transport-card bg-white rounded-lg p-6 flex items-center border border-gray-200 cursor-pointer transition" data-transport="Bike & Car">
+            <i class="fa-solid fa-motorcycle text-blue-400 text-2xl mr-4"></i>
+            <span class="text-gray-700 font-semibold">Bike & Car</span>
+          </div>
+        </div>
+      </div>
+      <div class="flex justify-between mt-8">
+        <button id="back-3" type="button" class="w-32 border-2 border-blue-400 text-blue-500 font-bold py-3 rounded-xl text-lg bg-white hover:bg-blue-50">Back</button>
+        <button id="next-3" type="button" class="w-32 bg-gray-300 text-gray-500 font-bold py-3 rounded-xl text-lg cursor-not-allowed" disabled>Next</button>
+      </div>
+    </div>
+  </div>
+      <!-- Step 4: Discover Your Journey -->
+    <div id="step-4" class="max-w-6xl mx-auto px-6 mt-10 hidden">
+      <div class="mb-8">
+        <div class="relative rounded-2xl overflow-hidden h-40 md:h-56">
+          <img src="https://api.a0.dev/assets/image?text=Travel%20Experiences&aspect=16:9" class="object-cover w-full h-full" />
+          <div class="absolute bottom-0 left-0 right-0 bg-black bg-opacity-50 p-6">
+            <div class="text-3xl md:text-2xl font-extrabold text-white">Discover Your Journey</div>
+            <div class="text-base md:text-sm text-gray-100 mt-1">Personalized recommendations based on your preferences</div>
+          </div>
+        </div>
+      </div>
+      <!-- Must-Visit Attractions -->
+      <div class="mb-8 bg-white rounded-2xl p-6 shadow">
+        <div class="flex items-center mb-4">
+          <i class="fa-solid fa-location-dot text-red-500 text-xl mr-2"></i>
+          <span class="text-xl font-bold text-gray-800">Must-Visit Attractions</span>
+        </div>
+        <div class="flex space-x-6 overflow-x-auto pb-2" id="attractions-list"></div>
+      </div>
+      <!-- Recommended Stays -->
+      <div class="mb-8 bg-white rounded-2xl p-6 shadow">
+        <div class="flex items-center mb-4">
+          <i class="fa-solid fa-bed text-blue-500 text-xl mr-2"></i>
+          <span class="text-xl font-bold text-gray-800">Recommended Stays</span>
+        </div>
+        <div class="flex space-x-6 overflow-x-auto pb-2" id="hotels-list"></div>
+      </div>
+      <!-- Local Cuisine -->
+      <div class="mb-8 bg-white rounded-2xl p-6 shadow">
+        <div class="flex items-center mb-4">
+          <i class="fa-solid fa-utensils text-orange-500 text-xl mr-2"></i>
+          <span class="text-xl font-bold text-gray-800">Local Cuisine</span>
+        </div>
+        <div class="flex space-x-6 overflow-x-auto pb-2" id="restaurants-list"></div>
+      </div>
+      <!-- Unique Experiences -->
+      <div class="mb-8 bg-white rounded-2xl p-6 shadow">
+        <div class="flex items-center mb-4">
+          <i class="fa-solid fa-people-group text-purple-500 text-xl mr-2"></i>
+          <span class="text-xl font-bold text-gray-800">Unique Experiences</span>
+        </div>
+        <div class="flex space-x-6 overflow-x-auto pb-2" id="experiences-list"></div>
+      </div>
+      <div class="flex justify-between mt-8">
+        <button id="back-4" type="button" class="w-32 border-2 border-blue-400 text-blue-500 font-bold py-3 rounded-xl text-lg bg-white hover:bg-blue-50">Back</button>
+        <button id="next-4" type="button" class="w-32 bg-blue-500 text-white font-bold py-3 rounded-xl text-lg">Next</button>
+      </div>
+    </div>
+
+    <!-- Step 5: Final Confirmation -->
+    <div id="step-5" class="max-w-4xl mx-auto px-6 mt-10 hidden">
+      <div class="bg-white rounded-2xl shadow-lg p-8">
+        <div class="text-center mb-8">
+          <div class="w-20 h-20 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
+            <i class="fa-solid fa-check text-green-500 text-3xl"></i>
+          </div>
+          <h2 class="text-3xl font-bold text-gray-800 mb-2">Trip Plan Complete!</h2>
+          <p class="text-gray-600 text-lg">Your personalized travel itinerary is ready</p>
+        </div>
+        
+        <div class="bg-gray-50 rounded-xl p-6 mb-6">
+          <h3 class="text-xl font-bold text-gray-800 mb-4">Trip Summary</h3>
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div>
+              <p class="text-gray-600"><span class="font-semibold">Destination:</span> <span id="summary-destination">-</span></p>
+              <p class="text-gray-600"><span class="font-semibold">Package:</span> <span id="summary-package">-</span></p>
+              <p class="text-gray-600"><span class="font-semibold">Budget:</span> <span id="summary-budget">-</span></p>
+            </div>
+            <div>
+              <p class="text-gray-600"><span class="font-semibold">Transport:</span> <span id="summary-transport">-</span></p>
+              <p class="text-gray-600"><span class="font-semibold">Duration:</span> <span id="summary-duration">-</span></p>
+              <p class="text-gray-600"><span class="font-semibold">Style:</span> <span id="summary-style">-</span></p>
+            </div>
+          </div>
+        </div>
+
+        <div class="flex flex-col sm:flex-row gap-4 justify-center">
+          <button id="download-plan" class="bg-blue-500 hover:bg-blue-600 text-white font-bold py-3 px-6 rounded-xl text-lg transition">
+            <i class="fa-solid fa-download mr-2"></i>Download Plan
+          </button>
+          <button id="share-plan" class="bg-green-500 hover:bg-green-600 text-white font-bold py-3 px-6 rounded-xl text-lg transition">
+            <i class="fa-solid fa-share mr-2"></i>Share Plan
+          </button>
+          <button id="back-5" type="button" class="border-2 border-blue-400 text-blue-500 font-bold py-3 px-6 rounded-xl text-lg bg-white hover:bg-blue-50 transition">Back</button>
+        </div>
+      </div>
+    </div>
+  <script>
+    // Step navigation logic
+    const step1 = document.getElementById('step-1');
+    const step2 = document.getElementById('step-2');
+    const next1 = document.getElementById('next-1');
+    const back2 = document.getElementById('back-2');
+    // Progress bar circles
+    const stepCircle1 = document.querySelector('.step-1');
+    const stepCircle2 = document.querySelector('.step-2');
+    const stepLine1 = document.querySelector('.step-line-1');
+
+    // Enable Next on step 1 if all fields are filled
+    const inputsStep1 = ['start-location', 'destination', 'start-date', 'end-date'].map(id => document.getElementById(id));
+    function checkStep1Fields() {
+      const allFilled = inputsStep1.every(input => input.value.trim() !== '');
+      next1.disabled = !allFilled;
+      next1.classList.toggle('bg-blue-500', allFilled);
+      next1.classList.toggle('text-white', allFilled);
+      next1.classList.toggle('cursor-not-allowed', !allFilled);
+      next1.classList.toggle('bg-gray-300', !allFilled);
+      next1.classList.toggle('text-gray-500', !allFilled);
+    }
+    inputsStep1.forEach(input => input.addEventListener('input', checkStep1Fields));
+
+    // Helper to update progress bar
+    function updateProgressBar(currentStep) {
+      const circles = document.querySelectorAll('.step-circle');
+      const lines = document.querySelectorAll('.step-line-1, .step-line-2, .step-line-3, .step-line-4');
+      
+      circles.forEach((circle, idx) => {
+        const stepNumber = idx + 1;
+        // Reset all classes first
+        circle.classList.remove('bg-blue-500', 'text-white', 'bg-blue-200', 'text-blue-500', 'bg-gray-200', 'text-gray-500');
+        
+        if (stepNumber < currentStep) {
+          // Completed steps - blue background with blue text
+          circle.classList.add('bg-blue-200', 'text-blue-500');
+        } else if (stepNumber === currentStep) {
+          // Current step - blue background with white text
+          circle.classList.add('bg-blue-500', 'text-white');
+        } else {
+          // Future steps - gray background with gray text
+          circle.classList.add('bg-gray-200', 'text-gray-500');
+        }
+      });
+      
+      lines.forEach((line, idx) => {
+        if (idx < currentStep - 1) {
+          // Lines before current step should be blue
+          line.classList.add('bg-blue-500');
+          line.classList.remove('bg-gray-200');
+        } else {
+          // Lines after current step should be gray
+          line.classList.remove('bg-blue-500');
+          line.classList.add('bg-gray-200');
+        }
+      });
+    }
+    // Update all navigation handlers to use updateProgressBar
+    next1.addEventListener('click', () => {
+      if (next1.disabled) return;
+      step1.classList.add('hidden');
+      step2.classList.remove('hidden');
+      updateProgressBar(2);
+    });
+    back2.addEventListener('click', () => {
+      step2.classList.add('hidden');
+      step1.classList.remove('hidden');
+      updateProgressBar(1);
+    });
+
+    // Package card selection logic
+    const packageCards = document.querySelectorAll('.package-card');
+    const next2 = document.getElementById('next-2');
+    let selectedPackage = null;
+    packageCards.forEach(card => {
+      card.addEventListener('click', () => {
+        packageCards.forEach(c => c.classList.remove('ring-4', 'ring-blue-400', 'border-blue-400', 'shadow-lg'));
+        card.classList.add('ring-4', 'ring-blue-400', 'border-blue-400', 'shadow-lg');
+        selectedPackage = card.getAttribute('data-package');
+        checkStep2Selections();
+      });
+    });
+    // Age group selection logic
+    const ageCards = document.querySelectorAll('.age-card');
+    let selectedAge = null;
+    ageCards.forEach(card => {
+      card.addEventListener('click', () => {
+        ageCards.forEach(c => c.classList.remove('ring-4', 'ring-blue-400', 'border-blue-400', 'shadow-lg'));
+        card.classList.add('ring-4', 'ring-blue-400', 'border-blue-400', 'shadow-lg');
+        selectedAge = card.getAttribute('data-age');
+        checkStep2Selections();
+      });
+    });
+    // Travel style selection logic
+    const travelCards = document.querySelectorAll('.travel-card');
+    let selectedStyle = null;
+    travelCards.forEach(card => {
+      card.addEventListener('click', () => {
+        travelCards.forEach(c => c.classList.remove('ring-4', 'ring-blue-400', 'border-blue-400', 'shadow-lg'));
+        card.classList.add('ring-4', 'ring-blue-400', 'border-blue-400', 'shadow-lg');
+        selectedStyle = card.getAttribute('data-style');
+        checkStep2Selections();
+      });
+    });
+    // Enable Next on step 2 if all are selected
+    function checkStep2Selections() {
+      const allSelected = selectedPackage && selectedAge && selectedStyle;
+      next2.disabled = !allSelected;
+      next2.classList.toggle('bg-blue-500', allSelected);
+      next2.classList.toggle('text-white', allSelected);
+      next2.classList.toggle('cursor-not-allowed', !allSelected);
+      next2.classList.toggle('bg-gray-300', !allSelected);
+      next2.classList.toggle('text-gray-500', !allSelected);
+    }
+
+    // Navigation for step 2 to 3
+    const step3 = document.getElementById('step-3');
+    const next3 = document.getElementById('next-3');
+    const back3 = document.getElementById('back-3');
+    const stepCircle3 = document.querySelectorAll('.step-circle')[2];
+    const stepLine2 = document.querySelector('.step-line-2');
+    next2.addEventListener('click', () => {
+      if (next2.disabled) return;
+      step2.classList.add('hidden');
+      step3.classList.remove('hidden');
+      updateProgressBar(3);
+    });
+    back3.addEventListener('click', () => {
+      step3.classList.add('hidden');
+      step2.classList.remove('hidden');
+      updateProgressBar(2);
+    });
+    // Budget slider logic
+    const budgetSlider = document.getElementById('budget-slider');
+    const budgetValue = document.getElementById('budget-value');
+    const totalBudget = document.getElementById('total-budget');
+    // Calculate days from step 1
+    function getDays() {
+      const start = document.getElementById('start-date').value;
+      const end = document.getElementById('end-date').value;
+      if (!start || !end) return 1;
+      const startDate = new Date(start);
+      const endDate = new Date(end);
+      const diff = Math.max(1, Math.round((endDate - startDate) / (1000 * 60 * 60 * 24)));
+      return diff;
+    }
+    function updateBudget() {
+      const perDay = budgetSlider.value;
+      budgetValue.textContent = `$${perDay}`;
+      const days = getDays();
+      totalBudget.textContent = `$${perDay * days}`;
+    }
+    budgetSlider.addEventListener('input', updateBudget);
+    // Transportation selection logic
+    const transportCards = document.querySelectorAll('.transport-card');
+    let selectedTransport = null;
+    function checkStep3Selections() {
+      next3.disabled = !selectedTransport;
+      next3.classList.toggle('bg-blue-500', !!selectedTransport);
+      next3.classList.toggle('text-white', !!selectedTransport);
+      next3.classList.toggle('cursor-not-allowed', !selectedTransport);
+      next3.classList.toggle('bg-gray-300', !selectedTransport);
+      next3.classList.toggle('text-gray-500', !selectedTransport);
+    }
+    transportCards.forEach(card => {
+      card.addEventListener('click', () => {
+        transportCards.forEach(c => c.classList.remove('ring-4', 'ring-blue-400', 'border-blue-400', 'shadow-lg'));
+        card.classList.add('ring-4', 'ring-blue-400', 'border-blue-400', 'shadow-lg');
+        selectedTransport = card.getAttribute('data-transport');
+        checkStep3Selections();
+      });
+    });
+    // Initialize budget on load
+    updateBudget();
+
+    // Data for step 4 (same as before)
+    // Render card lists (same as before, but update card styles for screenshots)
+    function createAttractionCard(item) {
+      const card = document.createElement('div');
+      card.className = 'w-72 bg-white rounded-2xl shadow flex-shrink-0 border border-gray-100';
+      card.innerHTML = `
+        <img src="${item.imageUrl}" class="w-full h-40 object-cover rounded-t-2xl" />
+        <div class="p-4">
+          <div class="font-extrabold text-lg text-gray-800 mb-1">${item.name}</div>
+          <div class="text-sm text-gray-600 mb-2">${item.description}</div>
+          <div class="inline-flex items-center bg-red-500 text-white text-xs px-3 py-1 rounded-full font-semibold"><i class='fa-solid fa-heart mr-1'></i> Popular</div>
+        </div>
+      `;
+      return card;
+    }
+    function createHotelCard(item) {
+      const card = document.createElement('div');
+      card.className = 'w-72 bg-white rounded-2xl shadow flex-shrink-0 border border-gray-100';
+      card.innerHTML = `
+        <img src="${item.imageUrl}" class="w-full h-40 object-cover rounded-t-2xl" />
+        <div class="p-4">
+          <div class="flex justify-between items-center mb-1"><span class="font-extrabold text-lg text-gray-800">${item.name}</span><span class="text-yellow-500 text-xs font-bold">${item.rating}</span></div>
+          <div class="text-blue-700 font-bold mb-2">${item.price}</div>
+          <div class="flex flex-wrap gap-2">${item.amenities.map(a => `<span class='bg-gray-100 text-xs px-2 py-1 rounded'>${a}</span>`).join('')}</div>
+        </div>
+      `;
+      return card;
+    }
+    function createRestaurantCard(item) {
+      const card = document.createElement('div');
+      card.className = 'w-72 bg-white rounded-2xl shadow flex-shrink-0 border border-gray-100';
+      card.innerHTML = `
+        <img src="${item.imageUrl}" class="w-full h-40 object-cover rounded-t-2xl" />
+        <div class="p-4">
+          <div class="font-extrabold text-lg text-gray-800 mb-1">${item.name}</div>
+          <div class="flex justify-between text-xs text-gray-500 mb-1"><span>${item.cuisine}</span><span class="text-green-600 font-bold">${item.priceRange}</span></div>
+          <div class="flex items-center text-xs text-yellow-600 mb-1"><i class='fa-solid fa-star mr-1'></i> ${item.rating}</div>
+          <div class="flex items-center text-xs text-gray-600"><i class='fa-solid fa-star text-yellow-500 mr-1'></i> Famous for: ${item.specialty}</div>
+        </div>
+      `;
+      return card;
+    }
+    function createExperienceCard(item) {
+      const card = document.createElement('div');
+      card.className = 'w-72 bg-white rounded-2xl shadow flex-shrink-0 border border-gray-100';
+      card.innerHTML = `
+        <img src="${item.imageUrl}" class="w-full h-40 object-cover rounded-t-2xl" />
+        <div class="p-4">
+          <div class="font-extrabold text-lg text-gray-800 mb-1">${item.name}</div>
+          <div class="flex justify-between text-xs text-gray-500 mb-2"><span>${item.price}</span><span>${item.duration}</span></div>
+          <button class="bg-purple-500 text-white px-4 py-2 rounded font-semibold text-sm">Book Now</button>
+        </div>
+      `;
+      return card;
+    }
+    // Mock data for step 4
+    const popularSites = [
+      { name: 'Golden Temple', description: 'Sacred Sikh shrine with stunning architecture', imageUrl: 'https://images.unsplash.com/photo-1587474260584-136574528ed5?w=300&h=200&fit=crop' },
+      { name: 'Red Fort', description: 'Historic Mughal palace complex', imageUrl: 'https://images.unsplash.com/photo-1524492412937-b28074a5d7da?w=300&h=200&fit=crop' },
+      { name: 'Taj Mahal', description: 'Iconic white marble mausoleum', imageUrl: 'https://images.unsplash.com/photo-1564507592333-c60657eea523?w=300&h=200&fit=crop' },
+      { name: 'Gateway of India', description: 'Historic monument and popular landmark', imageUrl: 'https://images.unsplash.com/photo-1578662996442-48f60103fc96?w=300&h=200&fit=crop' }
+    ];
+
+    const hotels = [
+      { name: 'Grand Palace Hotel', price: '$120/night', rating: '4.8', imageUrl: 'https://images.unsplash.com/photo-1566073771259-6a8506099945?w=300&h=200&fit=crop', amenities: ['WiFi', 'Pool', 'Spa'] },
+      { name: 'City View Inn', price: '$80/night', rating: '4.5', imageUrl: 'https://images.unsplash.com/photo-1551882547-ff40c63fe5fa?w=300&h=200&fit=crop', amenities: ['WiFi', 'Breakfast'] },
+      { name: 'Heritage Resort', price: '$150/night', rating: '4.9', imageUrl: 'https://images.unsplash.com/photo-1520250497591-112f2f40a3f4?w=300&h=200&fit=crop', amenities: ['WiFi', 'Pool', 'Spa', 'Restaurant'] }
+    ];
+
+    const restaurants = [
+      { name: 'Spice Route', cuisine: 'Indian', priceRange: '$$', rating: '4.7', specialty: 'Butter Chicken', imageUrl: 'https://images.unsplash.com/photo-1414235077428-338989a2e8c0?w=300&h=200&fit=crop' },
+      { name: 'Bella Italia', cuisine: 'Italian', priceRange: '$$$', rating: '4.5', specialty: 'Pasta', imageUrl: 'https://images.unsplash.com/photo-1555396273-367ea4eb4db5?w=300&h=200&fit=crop' },
+      { name: 'Green Leaf', cuisine: 'Vegetarian', priceRange: '$$', rating: '4.8', specialty: 'Thali', imageUrl: 'https://images.unsplash.com/photo-1546069901-ba9599a7e63c?w=300&h=200&fit=crop' }
+    ];
+
+    const localExperiences = [
+      { name: 'Cooking Class', price: '$45', duration: '3 hours', imageUrl: 'https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?w=300&h=200&fit=crop' },
+      { name: 'Yoga Session', price: '$25', duration: '1 hour', imageUrl: 'https://images.unsplash.com/photo-1544367567-0f2fcb009e0b?w=300&h=200&fit=crop' },
+      { name: 'Local Market Tour', price: '$30', duration: '2 hours', imageUrl: 'https://images.unsplash.com/photo-1441986300917-64674bd600d8?w=300&h=200&fit=crop' }
+    ];
+
+    // Helper function to render card lists
+    function renderCardList(containerId, data, createCardFunction) {
+      const container = document.getElementById(containerId);
+      if (container) {
+        container.innerHTML = '';
+        data.forEach(item => {
+          container.appendChild(createCardFunction(item));
+        });
+      }
+    }
+
+    // Navigation for step 3 to 4
+    const step4 = document.getElementById('step-4');
+    const next4 = document.getElementById('next-4');
+    const back4 = document.getElementById('back-4');
+    const stepCircle4 = document.querySelectorAll('.step-circle')[3];
+    const stepLine3 = document.querySelectorAll('.step-line-2, .step-line-3')[1] || document.querySelector('.step-line-3');
+    next3.addEventListener('click', () => {
+      if (next3.disabled) return;
+      step3.classList.add('hidden');
+      step4.classList.remove('hidden');
+      updateProgressBar(4);
+      // Render lists
+      renderCardList('attractions-list', popularSites, createAttractionCard);
+      renderCardList('hotels-list', hotels, createHotelCard);
+      renderCardList('restaurants-list', restaurants, createRestaurantCard);
+      renderCardList('experiences-list', localExperiences, createExperienceCard);
+    });
+    back4.addEventListener('click', () => {
+      step4.classList.add('hidden');
+      step3.classList.remove('hidden');
+      updateProgressBar(3);
+    });
+
+    // Navigation for step 4 to 5
+    const step5 = document.getElementById('step-5');
+    const back5 = document.getElementById('back-5');
+    const downloadPlan = document.getElementById('download-plan');
+    const sharePlan = document.getElementById('share-plan');
+    
+    next4.addEventListener('click', () => {
+      step4.classList.add('hidden');
+      step5.classList.remove('hidden');
+      updateProgressBar(5);
+      
+      // Populate summary with selected values
+      document.getElementById('summary-destination').textContent = document.getElementById('destination').value || 'Not specified';
+      document.getElementById('summary-package').textContent = selectedPackage || 'Not selected';
+      document.getElementById('summary-budget').textContent = `$${budgetSlider.value}/day`;
+      document.getElementById('summary-transport').textContent = selectedTransport || 'Not selected';
+      document.getElementById('summary-duration').textContent = `${getDays()} days`;
+      document.getElementById('summary-style').textContent = selectedStyle || 'Not selected';
+    });
+    
+    back5.addEventListener('click', () => {
+      step5.classList.add('hidden');
+      step4.classList.remove('hidden');
+      updateProgressBar(4);
+    });
+    
+    // Handle download and share buttons
+    downloadPlan.addEventListener('click', () => {
+      alert('Download functionality coming soon!');
+    });
+    
+    sharePlan.addEventListener('click', () => {
+      alert('Share functionality coming soon!');
+    });
+  </script>
+</body>
+</html> 
