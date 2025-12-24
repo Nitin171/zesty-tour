@@ -99,6 +99,7 @@ Thumbs.db
 *.db
 *.sqlite
 *.sqlite3
+backend/db.sqlite
 
 # Log files
 *.log

@@ -6,6 +6,7 @@
   <title>Zesty Tour</title>
   <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <script src="autocomplete.js"></script>
 </head>
 <body class="bg-gray-50 font-sans">
   <!-- Header / Hero -->
@@ -22,7 +23,7 @@
         <p class="text-lg text-gray-500 mb-6">Where would you like to explore?</p>
         <div class="flex items-center bg-gray-100 rounded-lg px-4 py-3 shadow-inner max-w-xl">
           <i class="fa fa-search text-gray-400 mr-3"></i>
-          <input type="text" placeholder="Search destinations..." class="w-full bg-transparent outline-none text-gray-700 text-lg"/>
+          <input type="text" id="search-destination" placeholder="Search destinations..." class="w-full bg-transparent outline-none text-gray-700 text-lg"/>
         </div>
       </div>
       <div class="mt-8 bg-gray-400 rounded-2xl p-8 shadow-lg">
@@ -197,5 +198,19 @@
       </div>
     </div>
   </div>
+  <script>
+    // Initialize autocomplete for search field
+    document.addEventListener('DOMContentLoaded', () => {
+      const searchInput = document.getElementById('search-destination');
+      if (searchInput) {
+        initAutocomplete(searchInput, {
+          onSelect: (item) => {
+            console.log('Selected destination:', item);
+            // You can add navigation logic here, e.g., redirect to plan.html with destination
+          }
+        });
+      }
+    });
+  </script>
 </body>
 </html> 
