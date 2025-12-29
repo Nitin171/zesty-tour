@@ -15,8 +15,16 @@
     <div class="max-w-6xl mx-auto px-6 py-8">
       <div class="flex items-center justify-between">
         <h1 class="text-3xl font-extrabold text-gray-800"><span class="text-yellow-400">Zesty</span> Tour</h1>
-        <div>
-          <i class="fa-solid fa-user-circle text-3xl text-gray-400"></i>
+        <div class="flex items-center gap-4">
+          <div id="user-info" class="hidden flex items-center gap-2">
+            <span class="text-gray-700 font-semibold" id="user-name"></span>
+            <button id="logout-btn" class="bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded-lg text-sm font-semibold transition">
+              <i class="fa-solid fa-sign-out-alt mr-1"></i>Logout
+            </button>
+          </div>
+          <a href="login.html" id="login-link" class="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-lg text-sm font-semibold transition">
+            <i class="fa-solid fa-sign-in-alt mr-1"></i>Login
+          </a>
         </div>
       </div>
       <div class="mt-8">
@@ -200,8 +208,30 @@
     </div>
   </div>
   <script>
-    // Initialize autocomplete for search field
+    // Check if user is logged in
     document.addEventListener('DOMContentLoaded', () => {
+      const user = localStorage.getItem('user');
+      const userInfo = document.getElementById('user-info');
+      const loginLink = document.getElementById('login-link');
+      
+      if (user) {
+        const userData = JSON.parse(user);
+        document.getElementById('user-name').textContent = userData.name || userData.username;
+        userInfo.classList.remove('hidden');
+        loginLink.classList.add('hidden');
+        
+        // Logout functionality
+        document.getElementById('logout-btn').addEventListener('click', () => {
+          localStorage.removeItem('user');
+          localStorage.removeItem('token');
+          window.location.reload();
+        });
+      } else {
+        userInfo.classList.add('hidden');
+        loginLink.classList.remove('hidden');
+      }
+
+      // Initialize autocomplete for search field
       const searchInput = document.getElementById('search-destination');
       if (searchInput) {
         initAutocomplete(searchInput, {

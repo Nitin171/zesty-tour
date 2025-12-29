@@ -8,6 +8,7 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <script src="config.js"></script>
   <script src="autocomplete.js"></script>
+  <script src="place-images.js"></script>
   <style>
     .premium-label {
       font-size: 3rem !important;
@@ -305,7 +306,7 @@
         
         <div class="bg-gray-50 rounded-xl p-6 mb-6">
           <h3 class="text-xl font-bold text-gray-800 mb-4">Trip Summary</h3>
-          <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
             <div>
               <p class="text-gray-600"><span class="font-semibold">Destination:</span> <span id="summary-destination">-</span></p>
               <p class="text-gray-600"><span class="font-semibold">Package:</span> <span id="summary-package">-</span></p>
@@ -315,6 +316,14 @@
               <p class="text-gray-600"><span class="font-semibold">Transport:</span> <span id="summary-transport">-</span></p>
               <p class="text-gray-600"><span class="font-semibold">Duration:</span> <span id="summary-duration">-</span></p>
               <p class="text-gray-600"><span class="font-semibold">Style:</span> <span id="summary-style">-</span></p>
+            </div>
+          </div>
+          
+          <!-- Selected Places Section -->
+          <div id="selected-places-section" class="mt-6">
+            <h3 class="text-xl font-bold text-gray-800 mb-4">Selected Places</h3>
+            <div id="selected-places-container" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+              <p class="text-gray-500 col-span-full text-center py-4">No places selected yet</p>
             </div>
           </div>
         </div>
@@ -331,8 +340,17 @@
       </div>
     </div>
   <script>
-    // Initialize autocomplete for location fields
+    // Check if user is logged in
     document.addEventListener('DOMContentLoaded', () => {
+      const user = localStorage.getItem('user');
+      if (!user) {
+        // Redirect to login if not authenticated
+        alert('Please login to plan your trip');
+        window.location.href = 'login.html';
+        return;
+      }
+      
+      // Initialize autocomplete for location fields
       const startLocationInput = document.getElementById('start-location');
       const destinationInput = document.getElementById('destination');
       
@@ -534,18 +552,20 @@
     function createAttractionCard(item) {
       const card = document.createElement('div');
       card.className = 'w-72 bg-white rounded-2xl shadow flex-shrink-0 border border-gray-100 cursor-pointer hover:shadow-xl transition-shadow selectable-card';
-      card.setAttribute('data-type', 'attraction');
+      card.setAttribute('data-type', 'attractions');
       card.setAttribute('data-name', item.name);
+      // Use place-specific image if available
+      const imageUrl = window.getPlaceImage ? window.getPlaceImage(item.name) : (item.imageUrl || 'https://images.unsplash.com/photo-1488646953014-85cb44e25828?w=400&h=300&fit=crop');
       card.innerHTML = `
         <div class="relative">
-          <img src="${item.imageUrl}" alt="${item.name}" class="w-full h-40 object-cover rounded-t-2xl" onerror="this.src='https://images.unsplash.com/photo-1488646953014-85cb44e25828?w=400&h=300&fit=crop'" />
+          <img src="${imageUrl}" alt="${item.name}" class="w-full h-40 object-cover rounded-t-2xl" onerror="this.src='${window.getPlaceImage ? window.getPlaceImage('default') : 'https://images.unsplash.com/photo-1488646953014-85cb44e25828?w=400&h=300&fit=crop'}'" />
           <div class="absolute top-2 right-2 w-6 h-6 rounded-full border-2 border-white bg-white flex items-center justify-center selection-indicator hidden">
             <i class="fa-solid fa-check text-blue-600 text-xs"></i>
           </div>
         </div>
         <div class="p-4">
           <div class="font-extrabold text-lg text-gray-800 mb-1">${item.name}</div>
-          <div class="text-sm text-gray-600 mb-2">${item.description}</div>
+          <div class="text-sm text-gray-600 mb-2">${item.description || ''}</div>
           <div class="inline-flex items-center bg-red-500 text-white text-xs px-3 py-1 rounded-full font-semibold"><i class='fa-solid fa-heart mr-1'></i> Popular</div>
         </div>
       `;
@@ -554,18 +574,19 @@
     function createHotelCard(item) {
       const card = document.createElement('div');
       card.className = 'w-72 bg-white rounded-2xl shadow flex-shrink-0 border border-gray-100 cursor-pointer hover:shadow-xl transition-shadow selectable-card';
-      card.setAttribute('data-type', 'hotel');
+      card.setAttribute('data-type', 'hotels');
       card.setAttribute('data-name', item.name);
+      const imageUrl = item.imageUrl || 'https://images.unsplash.com/photo-1566073771259-6a8506099945?w=400&h=300&fit=crop';
       card.innerHTML = `
         <div class="relative">
-          <img src="${item.imageUrl}" alt="${item.name}" class="w-full h-40 object-cover rounded-t-2xl" onerror="this.src='https://images.unsplash.com/photo-1566073771259-6a8506099945?w=400&h=300&fit=crop'" />
+          <img src="${imageUrl}" alt="${item.name}" class="w-full h-40 object-cover rounded-t-2xl" onerror="this.src='https://images.unsplash.com/photo-1566073771259-6a8506099945?w=400&h=300&fit=crop'" />
           <div class="absolute top-2 right-2 w-6 h-6 rounded-full border-2 border-white bg-white flex items-center justify-center selection-indicator hidden">
             <i class="fa-solid fa-check text-blue-600 text-xs"></i>
           </div>
         </div>
         <div class="p-4">
-          <div class="flex justify-between items-center mb-1"><span class="font-extrabold text-lg text-gray-800">${item.name}</span><span class="text-yellow-500 text-xs font-bold">${item.rating}</span></div>
-          <div class="text-blue-700 font-bold mb-2">${item.price}</div>
+          <div class="flex justify-between items-center mb-1"><span class="font-extrabold text-lg text-gray-800">${item.name}</span><span class="text-yellow-500 text-xs font-bold">${item.rating || '4.5'}</span></div>
+          <div class="text-blue-700 font-bold mb-2">${item.price || '₹2000/night'}</div>
           <div class="flex flex-wrap gap-2">${item.amenities ? item.amenities.map(a => `<span class='bg-gray-100 text-xs px-2 py-1 rounded'>${a}</span>`).join('') : ''}</div>
         </div>
       `;
@@ -574,20 +595,21 @@
     function createRestaurantCard(item) {
       const card = document.createElement('div');
       card.className = 'w-72 bg-white rounded-2xl shadow flex-shrink-0 border border-gray-100 cursor-pointer hover:shadow-xl transition-shadow selectable-card';
-      card.setAttribute('data-type', 'restaurant');
+      card.setAttribute('data-type', 'restaurants');
       card.setAttribute('data-name', item.name);
+      const imageUrl = item.imageUrl || 'https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?w=400&h=300&fit=crop';
       card.innerHTML = `
         <div class="relative">
-          <img src="${item.imageUrl}" alt="${item.name}" class="w-full h-40 object-cover rounded-t-2xl" onerror="this.src='https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?w=400&h=300&fit=crop'" />
+          <img src="${imageUrl}" alt="${item.name}" class="w-full h-40 object-cover rounded-t-2xl" onerror="this.src='https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?w=400&h=300&fit=crop'" />
           <div class="absolute top-2 right-2 w-6 h-6 rounded-full border-2 border-white bg-white flex items-center justify-center selection-indicator hidden">
             <i class="fa-solid fa-check text-blue-600 text-xs"></i>
           </div>
         </div>
         <div class="p-4">
           <div class="font-extrabold text-lg text-gray-800 mb-1">${item.name}</div>
-          <div class="flex justify-between text-xs text-gray-500 mb-1"><span>${item.cuisine}</span><span class="text-green-600 font-bold">${item.priceRange}</span></div>
-          <div class="flex items-center text-xs text-yellow-600 mb-1"><i class='fa-solid fa-star mr-1'></i> ${item.rating}</div>
-          <div class="flex items-center text-xs text-gray-600"><i class='fa-solid fa-star text-yellow-500 mr-1'></i> Famous for: ${item.specialty}</div>
+          <div class="flex justify-between text-xs text-gray-500 mb-1"><span>${item.cuisine || 'Indian'}</span><span class="text-green-600 font-bold">${item.priceRange || '$$'}</span></div>
+          <div class="flex items-center text-xs text-yellow-600 mb-1"><i class='fa-solid fa-star mr-1'></i> ${item.rating || '4.5'}</div>
+          <div class="flex items-center text-xs text-gray-600"><i class='fa-solid fa-star text-yellow-500 mr-1'></i> Famous for: ${item.specialty || 'Local Cuisine'}</div>
         </div>
       `;
       return card;
@@ -595,18 +617,19 @@
     function createExperienceCard(item) {
       const card = document.createElement('div');
       card.className = 'w-72 bg-white rounded-2xl shadow flex-shrink-0 border border-gray-100 cursor-pointer hover:shadow-xl transition-shadow selectable-card';
-      card.setAttribute('data-type', 'experience');
+      card.setAttribute('data-type', 'experiences');
       card.setAttribute('data-name', item.name);
+      const imageUrl = item.imageUrl || 'https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?w=400&h=300&fit=crop';
       card.innerHTML = `
         <div class="relative">
-          <img src="${item.imageUrl}" alt="${item.name}" class="w-full h-40 object-cover rounded-t-2xl" onerror="this.src='https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?w=400&h=300&fit=crop'" />
+          <img src="${imageUrl}" alt="${item.name}" class="w-full h-40 object-cover rounded-t-2xl" onerror="this.src='https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?w=400&h=300&fit=crop'" />
           <div class="absolute top-2 right-2 w-6 h-6 rounded-full border-2 border-white bg-white flex items-center justify-center selection-indicator hidden">
             <i class="fa-solid fa-check text-blue-600 text-xs"></i>
           </div>
         </div>
         <div class="p-4">
           <div class="font-extrabold text-lg text-gray-800 mb-1">${item.name}</div>
-          <div class="flex justify-between text-xs text-gray-500 mb-2"><span>${item.price}</span><span>${item.duration}</span></div>
+          <div class="flex justify-between text-xs text-gray-500 mb-2"><span>${item.price || '₹500'}</span><span>${item.duration || '2 hours'}</span></div>
           <button class="bg-purple-500 text-white px-4 py-2 rounded font-semibold text-sm hover:bg-purple-600 transition">Book Now</button>
         </div>
       `;
@@ -656,6 +679,14 @@
       }
     }
 
+    // Track selected places globally
+    let selectedPlaces = {
+      attractions: [],
+      hotels: [],
+      restaurants: [],
+      experiences: []
+    };
+
     // Setup card selection functionality
     function setupCardSelection(containerId) {
       const container = document.getElementById(containerId);
@@ -667,6 +698,10 @@
           // Toggle selection
           const indicator = this.querySelector('.selection-indicator');
           const isSelected = !this.classList.contains('selected');
+          const placeName = this.getAttribute('data-name');
+          const placeType = this.getAttribute('data-type');
+          const placeImage = this.querySelector('img')?.src || '';
+          const placeDescription = this.querySelector('.text-sm')?.textContent || '';
           
           // Remove selection from other cards in the same category
           const category = this.getAttribute('data-type');
@@ -675,6 +710,10 @@
               c.classList.remove('selected', 'ring-4', 'ring-blue-500', 'border-blue-500');
               const ind = c.querySelector('.selection-indicator');
               if (ind) ind.classList.add('hidden');
+              
+              // Remove from selected places
+              const nameToRemove = c.getAttribute('data-name');
+              selectedPlaces[category] = selectedPlaces[category].filter(p => p.name !== nameToRemove);
             }
           });
           
@@ -682,9 +721,20 @@
           if (isSelected) {
             this.classList.add('selected', 'ring-4', 'ring-blue-500', 'border-blue-500');
             if (indicator) indicator.classList.remove('hidden');
+            
+            // Add to selected places
+            selectedPlaces[placeType].push({
+              name: placeName,
+              image: placeImage,
+              description: placeDescription,
+              type: placeType
+            });
           } else {
             this.classList.remove('selected', 'ring-4', 'ring-blue-500', 'border-blue-500');
             if (indicator) indicator.classList.add('hidden');
+            
+            // Remove from selected places
+            selectedPlaces[placeType] = selectedPlaces[placeType].filter(p => p.name !== placeName);
           }
         });
       });
@@ -699,8 +749,9 @@
         const headerSubtitle = document.getElementById('destination-header-subtitle');
         
         if (headerImg) {
-          // Use a more reliable Unsplash image URL
-          headerImg.src = `https://images.unsplash.com/photo-1488646953014-85cb44e25828?w=1200&h=400&fit=crop&q=80`;
+          // Use destination-specific image if available
+          const destImage = window.getPlaceImage ? window.getPlaceImage(destinationName) : `https://images.unsplash.com/photo-1488646953014-85cb44e25828?w=1200&h=400&fit=crop&q=80`;
+          headerImg.src = destImage;
           headerImg.onerror = function() {
             this.src = `https://images.unsplash.com/photo-1564507592333-c60657eea523?w=1200&h=400&fit=crop&q=80`;
           };
@@ -811,7 +862,48 @@
       document.getElementById('summary-transport').textContent = selectedTransport || 'Not selected';
       document.getElementById('summary-duration').textContent = `${getDays()} days`;
       document.getElementById('summary-style').textContent = selectedStyle || 'Not selected';
+      
+      // Display selected places
+      displaySelectedPlaces();
     });
+    
+    // Function to display selected places in step 5
+    function displaySelectedPlaces() {
+      const container = document.getElementById('selected-places-container');
+      if (!container) return;
+      
+      // Get all selected places
+      const allSelected = [
+        ...selectedPlaces.attractions,
+        ...selectedPlaces.hotels,
+        ...selectedPlaces.restaurants,
+        ...selectedPlaces.experiences
+      ];
+      
+      if (allSelected.length === 0) {
+        container.innerHTML = '<p class="text-gray-500 col-span-full text-center py-4">No places selected yet</p>';
+        return;
+      }
+      
+      container.innerHTML = '';
+      allSelected.forEach(place => {
+        const placeCard = document.createElement('div');
+        placeCard.className = 'bg-white rounded-lg shadow-md overflow-hidden border border-gray-200';
+        placeCard.innerHTML = `
+          <div class="relative">
+            <img src="${place.image}" alt="${place.name}" class="w-full h-32 object-cover" onerror="this.src='${window.getPlaceImage ? window.getPlaceImage('default') : 'https://images.unsplash.com/photo-1488646953014-85cb44e25828?w=400&h=300&fit=crop'}'" />
+            <div class="absolute top-2 right-2 bg-blue-500 text-white text-xs px-2 py-1 rounded-full font-semibold">
+              ${place.type === 'attractions' ? '📍' : place.type === 'hotels' ? '🏨' : place.type === 'restaurants' ? '🍽️' : '🎯'}
+            </div>
+          </div>
+          <div class="p-3">
+            <h4 class="font-bold text-gray-800 text-sm mb-1">${place.name}</h4>
+            <p class="text-xs text-gray-600">${place.description || place.type}</p>
+          </div>
+        `;
+        container.appendChild(placeCard);
+      });
+    }
     
     back5.addEventListener('click', () => {
       step5.classList.add('hidden');

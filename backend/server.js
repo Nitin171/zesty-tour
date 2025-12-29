@@ -87,6 +87,24 @@ CREATE TABLE IF NOT EXISTS tour_details (
       populateDestinations();
     }
   });
+
+  // Create users table for authentication
+  db.run(`
+    CREATE TABLE IF NOT EXISTS users (
+      id INTEGER PRIMARY KEY AUTOINCREMENT,
+      username TEXT UNIQUE NOT NULL,
+      email TEXT UNIQUE NOT NULL,
+      password TEXT NOT NULL,
+      name TEXT NOT NULL,
+      created_at DATETIME DEFAULT CURRENT_TIMESTAMP
+    )
+  `, (err) => {
+    if (err) {
+      console.error('Error creating users table:', err);
+    } else {
+      console.log('Users table ready');
+    }
+  });
 }
 
 // Populate destinations table
@@ -229,6 +247,107 @@ app.get('/api/destinations/details', (req, res) => {
   res.json(processedData);
 });
 
+// Simple password hashing (for production, use bcrypt)
+function hashPassword(password) {
+  // Simple hash for demo - in production use bcrypt
+  return Buffer.from(password).toString('base64');
+}
+
+// Authentication endpoints
+// Signup
+app.post('/api/auth/signup', (req, res) => {
+  const { username, email, password, name } = req.body;
+  
+  if (!username || !email || !password || !name) {
+    return res.status(400).json({ error: 'All fields are required' });
+  }
+
+  if (password.length < 6) {
+    return res.status(400).json({ error: 'Password must be at least 6 characters' });
+  }
+
+  const hashedPassword = hashPassword(password);
+
+  db.get('SELECT * FROM users WHERE username = ? OR email = ?', [username, email], (err, row) => {
+    if (err) {
+      return res.status(500).json({ error: err.message });
+    }
+    
+    if (row) {
+      return res.status(400).json({ error: 'Username or email already exists' });
+    }
+
+    db.run(
+      'INSERT INTO users (username, email, password, name) VALUES (?, ?, ?, ?)',
+      [username, email, hashedPassword, name],
+      function(err) {
+        if (err) {
+          return res.status(500).json({ error: err.message });
+        }
+        
+        // Return user data (without password)
+        res.status(201).json({
+          user: {
+            id: this.lastID,
+            username,
+            email,
+            name
+          },
+          token: `token_${this.lastID}_${Date.now()}` // Simple token for demo
+        });
+      }
+    );
+  });
+});
+
+// Login
+app.post('/api/auth/login', (req, res) => {
+  const { username, password } = req.body;
+  
+  if (!username || !password) {
+    return res.status(400).json({ error: 'Username and password are required' });
+  }
+
+  const hashedPassword = hashPassword(password);
+
+  db.get('SELECT * FROM users WHERE username = ? AND password = ?', [username, hashedPassword], (err, row) => {
+    if (err) {
+      return res.status(500).json({ error: err.message });
+    }
+    
+    if (!row) {
+      return res.status(401).json({ error: 'Invalid username or password' });
+    }
+
+    // Return user data (without password)
+    res.json({
+      user: {
+        id: row.id,
+        username: row.username,
+        email: row.email,
+        name: row.name
+      },
+      token: `token_${row.id}_${Date.now()}` // Simple token for demo
+    });
+  });
+});
+
+// Get current user (for session check)
+app.get('/api/auth/me', (req, res) => {
+  const token = req.headers.authorization;
+  if (!token) {
+    return res.status(401).json({ error: 'Not authenticated' });
+  }
+  // Simple token validation - in production use JWT
+  const userId = token.split('_')[1];
+  db.get('SELECT id, username, email, name FROM users WHERE id = ?', [userId], (err, row) => {
+    if (err || !row) {
+      return res.status(401).json({ error: 'Invalid token' });
+    }
+    res.json({ user: row });
+  });
+});
+
 app.listen(PORT, () => {
   console.log(`🚀 Server running on http://localhost:${PORT}`);
   console.log(`📊 API endpoints available:`);
@@ -237,5 +356,8 @@ app.listen(PORT, () => {
   console.log(`   POST /api/tour-details`);
   console.log(`   GET  /api/destinations/search?q=<query>`);
   console.log(`   GET  /api/destinations/details?destination=<name>`);
+  console.log(`   POST /api/auth/signup`);
+  console.log(`   POST /api/auth/login`);
+  console.log(`   GET  /api/auth/me`);
   console.log(`🔗 Frontend should be accessible at: http://localhost:8000/frontend/index.html`);
 }); 
