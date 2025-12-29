@@ -554,11 +554,39 @@
       card.className = 'w-72 bg-white rounded-2xl shadow flex-shrink-0 border border-gray-100 cursor-pointer hover:shadow-xl transition-shadow selectable-card';
       card.setAttribute('data-type', 'attractions');
       card.setAttribute('data-name', item.name);
-      // Use place-specific image if available
-      const imageUrl = window.getPlaceImage ? window.getPlaceImage(item.name) : (item.imageUrl || 'https://images.unsplash.com/photo-1488646953014-85cb44e25828?w=400&h=300&fit=crop');
+      
+      // Get correct image - prioritize place-specific mapping
+      let imageUrl = item.imageUrl || 'https://images.unsplash.com/photo-1488646953014-85cb44e25828?w=400&h=300&fit=crop';
+      
+      // Override with place-specific image if available
+      if (window.getPlaceImage) {
+        const placeImage = window.getPlaceImage(item.name);
+        if (placeImage && placeImage !== window.placeImages.default) {
+          imageUrl = placeImage;
+        }
+      }
+      
+      // Specific place image fixes
+      const nameLower = item.name.toLowerCase();
+      if (nameLower.includes('red fort')) {
+        imageUrl = 'https://images.unsplash.com/photo-1524492412937-b28074a5d7da?w=400&h=300&fit=crop&q=80';
+      } else if (nameLower.includes('taj mahal')) {
+        imageUrl = 'https://images.unsplash.com/photo-1564507592333-c60657eea523?w=400&h=300&fit=crop&q=80';
+      } else if (nameLower.includes('india gate')) {
+        imageUrl = 'https://images.unsplash.com/photo-1591604466107-ec97de577aff?w=400&h=300&fit=crop&q=80';
+      } else if (nameLower.includes('qutub minar')) {
+        imageUrl = 'https://images.unsplash.com/photo-1580480055273-228ff5388ef8?w=400&h=300&fit=crop&q=80';
+      } else if (nameLower.includes('lotus temple')) {
+        imageUrl = 'https://images.unsplash.com/photo-1587574293340-e0011c4e8ecf?w=400&h=300&fit=crop&q=80';
+      } else if (nameLower.includes('golden temple')) {
+        imageUrl = 'https://images.unsplash.com/photo-1587474260584-136574528ed5?w=400&h=300&fit=crop&q=80';
+      } else if (nameLower.includes('gateway of india')) {
+        imageUrl = 'https://images.unsplash.com/photo-1578662996442-48f60103fc96?w=400&h=300&fit=crop&q=80';
+      }
+      
       card.innerHTML = `
         <div class="relative">
-          <img src="${imageUrl}" alt="${item.name}" class="w-full h-40 object-cover rounded-t-2xl" onerror="this.src='${window.getPlaceImage ? window.getPlaceImage('default') : 'https://images.unsplash.com/photo-1488646953014-85cb44e25828?w=400&h=300&fit=crop'}'" />
+          <img src="${imageUrl}" alt="${item.name}" class="w-full h-40 object-cover rounded-t-2xl" onerror="this.src='https://images.unsplash.com/photo-1488646953014-85cb44e25828?w=400&h=300&fit=crop&q=80'" />
           <div class="absolute top-2 right-2 w-6 h-6 rounded-full border-2 border-white bg-white flex items-center justify-center selection-indicator hidden">
             <i class="fa-solid fa-check text-blue-600 text-xs"></i>
           </div>

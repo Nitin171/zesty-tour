@@ -577,55 +577,57 @@ function hashString(str) {
   return Math.abs(hash);
 }
 
-// Better image URL function using verified photo IDs and hash-based selection
+// Better image URL function using verified Unsplash photo IDs for specific places
 function getBetterImageUrl(query, width = 400, height = 300) {
   if (!query) {
-    // Default travel image using Picsum with a fixed seed
-    return `https://picsum.photos/seed/travel/${width}/${height}`;
+    return `https://images.unsplash.com/photo-1488646953014-85cb44e25828?w=${width}&h=${height}&fit=crop&q=80`;
   }
   
   const queryLower = query.toLowerCase().trim();
   
-  // Use hash-based seed with Picsum Photos for consistent but unique images
-  // Each place gets a unique image based on its name/query
-  const seed = hashString(queryLower);
-  const normalizedQuery = queryLower.replace(/[^\w\s]/g, '').replace(/\s+/g, '');
-  
-  // Use different image categories based on query content to ensure variety
-  if (queryLower.includes('hotel') || queryLower.includes('resort')) {
-    return `https://picsum.photos/seed/hotel${normalizedQuery}${seed}/${width}/${height}`;
-  } else if (queryLower.includes('restaurant') || queryLower.includes('food') || queryLower.includes('cafe') || queryLower.includes('cuisine')) {
-    return `https://picsum.photos/seed/restaurant${normalizedQuery}${seed}/${width}/${height}`;
-  } else if (queryLower.includes('temple') || queryLower.includes('mosque') || queryLower.includes('church') || queryLower.includes('dargah')) {
-    return `https://picsum.photos/seed/temple${normalizedQuery}${seed}/${width}/${height}`;
-  } else if (queryLower.includes('fort') || queryLower.includes('palace') || queryLower.includes('monument')) {
-    return `https://picsum.photos/seed/fort${normalizedQuery}${seed}/${width}/${height}`;
-  } else if (queryLower.includes('beach') || queryLower.includes('coast') || queryLower.includes('seaside')) {
-    return `https://picsum.photos/seed/beach${normalizedQuery}${seed}/${width}/${height}`;
-  } else if (queryLower.includes('tour') || queryLower.includes('experience') || queryLower.includes('walk') || queryLower.includes('cruise') || queryLower.includes('activity')) {
-    return `https://picsum.photos/seed/tour${normalizedQuery}${seed}/${width}/${height}`;
-  } else {
-    // Use the normalized query as seed for maximum uniqueness
-    return `https://picsum.photos/seed/${normalizedQuery}${seed}/${width}/${height}`;
+  // Check imageMap first for specific place matches
+  if (imageMap[queryLower]) {
+    const photoId = imageMap[queryLower];
+    // Handle both full photo IDs and partial IDs
+    if (photoId.startsWith('photo-')) {
+      return `https://images.unsplash.com/${photoId}?w=${width}&h=${height}&fit=crop&q=80`;
+    } else {
+      return `https://images.unsplash.com/photo-${photoId}?w=${width}&h=${height}&fit=crop&q=80`;
+    }
   }
   
-  // Fallback: Use a reliable default image based on category
-  if (queryLower.includes('hotel') || queryLower.includes('resort') || queryLower.includes('accommodation')) {
-    return `https://images.unsplash.com/photo-1566073771259-6a8506099945?w=${width}&h=${height}&fit=crop&q=80`;
-  } else if (queryLower.includes('restaurant') || queryLower.includes('food') || queryLower.includes('cuisine') || queryLower.includes('cafe')) {
-    return `https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?w=${width}&h=${height}&fit=crop&q=80`;
-  } else if (queryLower.includes('beach') || queryLower.includes('coast') || queryLower.includes('seaside')) {
-    return `https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=${width}&h=${height}&fit=crop&q=80`;
-  } else if (queryLower.includes('temple') || queryLower.includes('mosque') || queryLower.includes('church') || queryLower.includes('dargah')) {
-    return `https://images.unsplash.com/photo-1605540433968-63f50f0f1f12?w=${width}&h=${height}&fit=crop&q=80`;
-  } else if (queryLower.includes('fort') || queryLower.includes('palace') || queryLower.includes('monument')) {
+  // Try partial matches in imageMap
+  for (const key in imageMap) {
+    if (queryLower.includes(key) || key.includes(queryLower)) {
+      const photoId = imageMap[key];
+      if (photoId.startsWith('photo-')) {
+        return `https://images.unsplash.com/${photoId}?w=${width}&h=${height}&fit=crop&q=80`;
+      } else {
+        return `https://images.unsplash.com/photo-${photoId}?w=${width}&h=${height}&fit=crop&q=80`;
+      }
+    }
+  }
+  
+  // Fallback: Use category-based images
+  if (queryLower.includes('red fort') || queryLower.includes('redfort')) {
     return `https://images.unsplash.com/photo-1524492412937-b28074a5d7da?w=${width}&h=${height}&fit=crop&q=80`;
-  } else if (queryLower.includes('tour') || queryLower.includes('experience') || queryLower.includes('activity')) {
-    return `https://images.unsplash.com/photo-1488646953014-85cb44e25828?w=${width}&h=${height}&fit=crop&q=80`;
-  } else if (queryLower.includes('mumbai') || queryLower.includes('delhi') || queryLower.includes('bangalore')) {
-    return `https://images.unsplash.com/photo-1488646953014-85cb44e25828?w=${width}&h=${height}&fit=crop&q=80`;
+  } else if (queryLower.includes('taj mahal') || queryLower.includes('tajmahal')) {
+    return `https://images.unsplash.com/photo-1564507592333-c60657eea523?w=${width}&h=${height}&fit=crop&q=80`;
+  } else if (queryLower.includes('india gate') || queryLower.includes('indiagate')) {
+    return `https://images.unsplash.com/photo-1591604466107-ec97de577aff?w=${width}&h=${height}&fit=crop&q=80`;
+  } else if (queryLower.includes('qutub minar') || queryLower.includes('qutubminar')) {
+    return `https://images.unsplash.com/photo-1580480055273-228ff5388ef8?w=${width}&h=${height}&fit=crop&q=80`;
+  } else if (queryLower.includes('lotus temple') || queryLower.includes('lotustemple')) {
+    return `https://images.unsplash.com/photo-1587574293340-e0011c4e8ecf?w=${width}&h=${height}&fit=crop&q=80`;
+  } else if (queryLower.includes('hotel') || queryLower.includes('resort')) {
+    return `https://images.unsplash.com/photo-1566073771259-6a8506099945?w=${width}&h=${height}&fit=crop&q=80`;
+  } else if (queryLower.includes('restaurant') || queryLower.includes('food') || queryLower.includes('cafe')) {
+    return `https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?w=${width}&h=${height}&fit=crop&q=80`;
+  } else if (queryLower.includes('temple') || queryLower.includes('mosque') || queryLower.includes('church')) {
+    return `https://images.unsplash.com/photo-1605540433968-63f50f0f1f12?w=${width}&h=${height}&fit=crop&q=80`;
+  } else if (queryLower.includes('fort') || queryLower.includes('palace')) {
+    return `https://images.unsplash.com/photo-1524492412937-b28074a5d7da?w=${width}&h=${height}&fit=crop&q=80`;
   } else {
-    // Default travel/tourism image
     return `https://images.unsplash.com/photo-1488646953014-85cb44e25828?w=${width}&h=${height}&fit=crop&q=80`;
   }
 }
