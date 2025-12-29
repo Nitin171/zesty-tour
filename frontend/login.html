@@ -167,7 +167,7 @@
           localStorage.setItem('user', JSON.stringify(data.user));
           localStorage.setItem('token', data.token);
           
-          // Redirect to home
+          // Redirect to main account page (homepage)
           window.location.href = 'index.html';
         } else {
           errorDiv.textContent = data.error || 'Invalid username or password';
@@ -222,7 +222,7 @@
           localStorage.setItem('user', JSON.stringify(data.user));
           localStorage.setItem('token', data.token);
           
-          // Redirect to home
+          // Redirect to main account page (homepage)
           window.location.href = 'index.html';
         } else {
           errorDiv.textContent = data.error || 'Signup failed. Please try again.';
