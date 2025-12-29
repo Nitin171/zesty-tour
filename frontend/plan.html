@@ -6,6 +6,7 @@
   <title>Plan Your Trip - Zesty Tour</title>
   <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <script src="config.js"></script>
   <script src="autocomplete.js"></script>
   <style>
     .premium-label {
@@ -643,7 +644,7 @@
       if (container) {
         container.innerHTML = '';
         if (data && data.length > 0) {
-          data.forEach(item => {
+        data.forEach(item => {
             const card = createCardFunction(item);
             container.appendChild(card);
           });
@@ -720,7 +721,8 @@
           }
         });
 
-        const response = await fetch(`http://localhost:3001/api/destinations/details?destination=${encodeURIComponent(destinationName)}`);
+        const apiUrl = window.API_BASE_URL || 'http://localhost:3001';
+        const response = await fetch(`${apiUrl}/api/destinations/details?destination=${encodeURIComponent(destinationName)}`);
         const data = await response.json();
 
         // Render the data
@@ -779,10 +781,10 @@
         fetchDestinationData(destination);
       } else {
         // Fallback to mock data if no destination
-        renderCardList('attractions-list', popularSites, createAttractionCard);
-        renderCardList('hotels-list', hotels, createHotelCard);
-        renderCardList('restaurants-list', restaurants, createRestaurantCard);
-        renderCardList('experiences-list', localExperiences, createExperienceCard);
+      renderCardList('attractions-list', popularSites, createAttractionCard);
+      renderCardList('hotels-list', hotels, createHotelCard);
+      renderCardList('restaurants-list', restaurants, createRestaurantCard);
+      renderCardList('experiences-list', localExperiences, createExperienceCard);
       }
     });
     back4.addEventListener('click', () => {

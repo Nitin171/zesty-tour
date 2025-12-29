@@ -37,12 +37,12 @@ const popularDestinations = indianDestinations;
 
 // Initialize database tables
 function initializeDatabase() {
-  // Create recipes table if it doesn't exist
+// Create recipes table if it doesn't exist
   db.run(`
-    CREATE TABLE IF NOT EXISTS recipes (
-      id INTEGER PRIMARY KEY AUTOINCREMENT,
-      name TEXT NOT NULL,
-      description TEXT
+CREATE TABLE IF NOT EXISTS recipes (
+  id INTEGER PRIMARY KEY AUTOINCREMENT,
+  name TEXT NOT NULL,
+  description TEXT
     )
   `, (err) => {
     if (err) {
@@ -50,18 +50,18 @@ function initializeDatabase() {
     }
   });
 
-  // Create tour_details table if it doesn't exist
+// Create tour_details table if it doesn't exist
   db.run(`
-    CREATE TABLE IF NOT EXISTS tour_details (
-      id INTEGER PRIMARY KEY AUTOINCREMENT,
-      start TEXT,
-      end TEXT,
-      pkg TEXT,
-      age TEXT,
-      prefs TEXT,
-      budget INTEGER,
-      modes TEXT,
-      created_at DATETIME DEFAULT CURRENT_TIMESTAMP
+CREATE TABLE IF NOT EXISTS tour_details (
+  id INTEGER PRIMARY KEY AUTOINCREMENT,
+  start TEXT,
+  end TEXT,
+  pkg TEXT,
+  age TEXT,
+  prefs TEXT,
+  budget INTEGER,
+  modes TEXT,
+  created_at DATETIME DEFAULT CURRENT_TIMESTAMP
     )
   `, (err) => {
     if (err) {

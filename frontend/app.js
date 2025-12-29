@@ -1,5 +1,6 @@
 function fetchRecipes() {
-  fetch('http://localhost:3001/api/recipes')
+  const apiUrl = window.API_BASE_URL || 'http://localhost:3001';
+  fetch(`${apiUrl}/api/recipes`)
     .then(res => res.json())
     .then(data => {
       const recipesDiv = document.getElementById('recipes');
@@ -237,7 +238,8 @@ function handleTourDetailsForm() {
     const modes = [];
     if (bike) modes.push('Bike');
     if (car) modes.push('Car/Tempo');
-    fetch('http://localhost:3001/api/tour-details', {
+    const apiUrl = window.API_BASE_URL || 'http://localhost:3001';
+    fetch(`${apiUrl}/api/tour-details`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ start, end, pkg, age, prefs, budget, modes })
@@ -304,7 +306,8 @@ document.addEventListener('DOMContentLoaded', () => {
     const name = document.getElementById('recipe-name').value.trim();
     const description = document.getElementById('recipe-description').value.trim();
     if (!name) return;
-    fetch('http://localhost:3001/api/recipes', {
+    const apiUrl = window.API_BASE_URL || 'http://localhost:3001';
+    fetch(`${apiUrl}/api/recipes`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ name, description })

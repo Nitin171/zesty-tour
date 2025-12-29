@@ -1,7 +1,7 @@
 // Autocomplete functionality for destination search
 function initAutocomplete(inputElement, options = {}) {
   const {
-    apiUrl = 'http://localhost:3001/api/destinations/search',
+    apiUrl = (window.API_BASE_URL || 'http://localhost:3001') + '/api/destinations/search',
     minLength = 1,
     debounceMs = 300,
     onSelect = null,

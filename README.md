@@ -200,3 +200,38 @@ This project is licensed under the ISC License.
 ---
 
 **Made with ❤️ for travel enthusiasts exploring India**
+
+- Check if port 8000 is available
+- Open browser console to see any errors
+
+### If images don't load:
+- Images are loaded from Picsum Photos (external service)
+- Check your internet connection
+- Images may take a moment to load on first visit
+
+### Database issues:
+- The database is created automatically on first run
+- If you need to reset: Delete `backend/db.sqlite` and restart the server
+
+## 📝 Contributing
+
+1. Fork the repository
+2. Create your feature branch (`git checkout -b feature/AmazingFeature`)
+3. Commit your changes (`git commit -m 'Add some AmazingFeature'`)
+4. Push to the branch (`git push origin feature/AmazingFeature`)
+5. Open a Pull Request
+
+## 📄 License
+
+This project is licensed under the ISC License.
+
+## 🙏 Acknowledgments
+
+- Tailwind CSS for the beautiful styling
+- Font Awesome for the icons
+- Picsum Photos for placeholder images
+- All contributors and users of Zesty Tour
+
+---
+
+**Made with ❤️ for travel enthusiasts exploring India**
