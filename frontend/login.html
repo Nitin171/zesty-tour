@@ -142,15 +142,26 @@
 
     // Login functionality
     document.getElementById('login-btn').addEventListener('click', async () => {
-      const username = document.getElementById('login-username').value.trim();
-      const password = document.getElementById('login-password').value.trim();
+      const usernameInput = document.getElementById('login-username');
+      const passwordInput = document.getElementById('login-password');
+      const username = usernameInput.value.trim();
+      const password = passwordInput.value.trim();
       const errorDiv = document.getElementById('login-error');
+      const loginBtn = document.getElementById('login-btn');
+
+      // Clear previous errors
+      errorDiv.classList.add('hidden');
+      errorDiv.textContent = '';
 
       if (!username || !password) {
         errorDiv.textContent = 'Please fill in all fields';
         errorDiv.classList.remove('hidden');
         return;
       }
+
+      // Disable button during request
+      loginBtn.disabled = true;
+      loginBtn.textContent = 'Logging in...';
 
       try {
         const apiUrl = window.API_BASE_URL || 'http://localhost:3001';
@@ -167,15 +178,24 @@
           localStorage.setItem('user', JSON.stringify(data.user));
           localStorage.setItem('token', data.token);
           
+          // Clear form
+          usernameInput.value = '';
+          passwordInput.value = '';
+          
           // Redirect to main account page (homepage)
           window.location.href = 'index.html';
         } else {
           errorDiv.textContent = data.error || 'Invalid username or password';
           errorDiv.classList.remove('hidden');
+          loginBtn.disabled = false;
+          loginBtn.innerHTML = '<i class="fa-solid fa-sign-in-alt mr-2"></i>Login';
         }
       } catch (error) {
-        errorDiv.textContent = 'Login failed. Please try again.';
+        console.error('Login error:', error);
+        errorDiv.textContent = 'Login failed. Please check your connection and try again.';
         errorDiv.classList.remove('hidden');
+        loginBtn.disabled = false;
+        loginBtn.innerHTML = '<i class="fa-solid fa-sign-in-alt mr-2"></i>Login';
       }
     });
 

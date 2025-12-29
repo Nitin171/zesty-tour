@@ -256,7 +256,13 @@ function hashPassword(password) {
 // Authentication endpoints
 // Signup
 app.post('/api/auth/signup', (req, res) => {
-  const { username, email, password, name } = req.body;
+  let { username, email, password, name } = req.body;
+  
+  // Trim whitespace from all fields
+  username = username ? username.trim() : '';
+  email = email ? email.trim() : '';
+  password = password ? password.trim() : '';
+  name = name ? name.trim() : '';
   
   if (!username || !email || !password || !name) {
     return res.status(400).json({ error: 'All fields are required' });
@@ -308,14 +314,29 @@ app.post('/api/auth/login', (req, res) => {
     return res.status(400).json({ error: 'Username and password are required' });
   }
 
-  const hashedPassword = hashPassword(password);
+  // Trim whitespace from username
+  const trimmedUsername = username.trim();
+  const trimmedPassword = password.trim();
 
-  db.get('SELECT * FROM users WHERE username = ? AND password = ?', [username, hashedPassword], (err, row) => {
+  if (!trimmedUsername || !trimmedPassword) {
+    return res.status(400).json({ error: 'Username and password are required' });
+  }
+
+  const hashedPassword = hashPassword(trimmedPassword);
+
+  // First check if user exists
+  db.get('SELECT * FROM users WHERE username = ?', [trimmedUsername], (err, row) => {
     if (err) {
-      return res.status(500).json({ error: err.message });
+      console.error('Database error:', err);
+      return res.status(500).json({ error: 'Database error. Please try again.' });
     }
     
     if (!row) {
+      return res.status(401).json({ error: 'Invalid username or password' });
+    }
+
+    // Check password
+    if (row.password !== hashedPassword) {
       return res.status(401).json({ error: 'Invalid username or password' });
     }
 
