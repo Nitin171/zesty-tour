@@ -208,28 +208,31 @@
     </div>
   </div>
   <script>
-    // Check if user is logged in
+    // Check if user is logged in - redirect to login if not
     document.addEventListener('DOMContentLoaded', () => {
       const user = localStorage.getItem('user');
+      
+      // If not logged in, redirect to login page
+      if (!user) {
+        window.location.href = 'login.html';
+        return;
+      }
+      
+      // User is logged in - show user info
       const userInfo = document.getElementById('user-info');
       const loginLink = document.getElementById('login-link');
+      const userData = JSON.parse(user);
       
-      if (user) {
-        const userData = JSON.parse(user);
-        document.getElementById('user-name').textContent = userData.name || userData.username;
-        userInfo.classList.remove('hidden');
-        loginLink.classList.add('hidden');
-        
-        // Logout functionality
-        document.getElementById('logout-btn').addEventListener('click', () => {
-          localStorage.removeItem('user');
-          localStorage.removeItem('token');
-          window.location.reload();
-        });
-      } else {
-        userInfo.classList.add('hidden');
-        loginLink.classList.remove('hidden');
-      }
+      document.getElementById('user-name').textContent = userData.name || userData.username;
+      userInfo.classList.remove('hidden');
+      loginLink.classList.add('hidden');
+      
+      // Logout functionality
+      document.getElementById('logout-btn').addEventListener('click', () => {
+        localStorage.removeItem('user');
+        localStorage.removeItem('token');
+        window.location.href = 'login.html';
+      });
 
       // Initialize autocomplete for search field
       const searchInput = document.getElementById('search-destination');

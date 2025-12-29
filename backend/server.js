@@ -12,9 +12,9 @@ app.use(express.json());
 // Serve static files from frontend directory in production
 if (process.env.NODE_ENV === 'production' || !process.env.FRONTEND_SERVER) {
   app.use(express.static(path.join(__dirname, '..', 'frontend')));
-  // Serve index.html for root route
+  // Serve login.html for root route (users must login first)
   app.get('/', (req, res) => {
-    res.sendFile(path.join(__dirname, '..', 'frontend', 'index.html'));
+    res.sendFile(path.join(__dirname, '..', 'frontend', 'login.html'));
   });
 }
 

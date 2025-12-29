@@ -109,11 +109,9 @@
       </div>
     </div>
 
-    <!-- Back to Home -->
+    <!-- Note: Users must login first -->
     <div class="text-center mt-6">
-      <a href="index.html" class="text-white hover:text-yellow-400 transition">
-        <i class="fa-solid fa-arrow-left mr-2"></i>Back to Home
-      </a>
+      <p class="text-white text-sm">Welcome to Zesty Tour! Please login or create an account to continue.</p>
     </div>
   </div>
 
@@ -236,7 +234,7 @@
       }
     });
 
-    // Check if user is already logged in
+    // Check if user is already logged in - redirect to main account page
     if (localStorage.getItem('user')) {
       window.location.href = 'index.html';
     }
