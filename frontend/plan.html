@@ -308,34 +308,63 @@
           <h3 class="text-xl font-bold text-gray-800 mb-4">Trip Summary</h3>
           <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
             <div>
-              <p class="text-gray-600"><span class="font-semibold">Destination:</span> <span id="summary-destination">-</span></p>
-              <p class="text-gray-600"><span class="font-semibold">Package:</span> <span id="summary-package">-</span></p>
-              <p class="text-gray-600"><span class="font-semibold">Budget:</span> <span id="summary-budget">-</span></p>
+              <p class="text-gray-600 mb-2"><span class="font-semibold">Start Location:</span> <span id="summary-start-location">-</span></p>
+              <p class="text-gray-600 mb-2"><span class="font-semibold">Destination:</span> <span id="summary-destination">-</span></p>
+              <p class="text-gray-600 mb-2"><span class="font-semibold">Package:</span> <span id="summary-package">-</span></p>
+              <p class="text-gray-600 mb-2"><span class="font-semibold">Budget:</span> <span id="summary-budget">-</span></p>
             </div>
             <div>
-              <p class="text-gray-600"><span class="font-semibold">Transport:</span> <span id="summary-transport">-</span></p>
-              <p class="text-gray-600"><span class="font-semibold">Duration:</span> <span id="summary-duration">-</span></p>
-              <p class="text-gray-600"><span class="font-semibold">Style:</span> <span id="summary-style">-</span></p>
+              <p class="text-gray-600 mb-2"><span class="font-semibold">Transport:</span> <span id="summary-transport">-</span></p>
+              <p class="text-gray-600 mb-2"><span class="font-semibold">Duration:</span> <span id="summary-duration">-</span></p>
+              <p class="text-gray-600 mb-2"><span class="font-semibold">Travel Style:</span> <span id="summary-style">-</span></p>
+              <p class="text-gray-600 mb-2"><span class="font-semibold">Dates:</span> <span id="summary-dates">-</span></p>
             </div>
           </div>
           
-          <!-- Selected Places Section -->
+          <!-- Selected Hotel Section -->
+          <div id="selected-hotel-section" class="mt-6 mb-4">
+            <h3 class="text-lg font-bold text-gray-800 mb-3 flex items-center">
+              <i class="fa-solid fa-bed text-blue-500 mr-2"></i>Selected Hotel
+            </h3>
+            <div id="selected-hotel-container" class="bg-white rounded-lg p-4 border border-gray-200">
+              <p class="text-gray-500 text-center py-2">No hotel selected yet</p>
+            </div>
+          </div>
+
+          <!-- Selected Restaurant Section -->
+          <div id="selected-restaurant-section" class="mt-4 mb-4">
+            <h3 class="text-lg font-bold text-gray-800 mb-3 flex items-center">
+              <i class="fa-solid fa-utensils text-orange-500 mr-2"></i>Selected Restaurant
+            </h3>
+            <div id="selected-restaurant-container" class="bg-white rounded-lg p-4 border border-gray-200">
+              <p class="text-gray-500 text-center py-2">No restaurant selected yet</p>
+            </div>
+          </div>
+          
+          <!-- Selected Destinations Section -->
           <div id="selected-places-section" class="mt-6">
-            <h3 class="text-xl font-bold text-gray-800 mb-4">Selected Places</h3>
+            <h3 class="text-lg font-bold text-gray-800 mb-3 flex items-center">
+              <i class="fa-solid fa-location-dot text-red-500 mr-2"></i>Selected Destinations
+            </h3>
             <div id="selected-places-container" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-              <p class="text-gray-500 col-span-full text-center py-4">No places selected yet</p>
+              <p class="text-gray-500 col-span-full text-center py-4">No destinations selected yet</p>
             </div>
           </div>
         </div>
 
-        <div class="flex flex-col sm:flex-row gap-4 justify-center">
-          <button id="download-plan" class="bg-blue-500 hover:bg-blue-600 text-white font-bold py-3 px-6 rounded-xl text-lg transition">
-            <i class="fa-solid fa-download mr-2"></i>Download Plan
+        <div class="flex flex-col gap-4">
+          <button id="start-trip" class="w-full bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 text-white font-bold py-4 px-8 rounded-xl text-xl transition shadow-lg transform hover:scale-105 flex items-center justify-center">
+            <i class="fa-solid fa-play-circle mr-3 text-2xl"></i>Start Trip
           </button>
-          <button id="share-plan" class="bg-green-500 hover:bg-green-600 text-white font-bold py-3 px-6 rounded-xl text-lg transition">
-            <i class="fa-solid fa-share mr-2"></i>Share Plan
-          </button>
-          <button id="back-5" type="button" class="border-2 border-blue-400 text-blue-500 font-bold py-3 px-6 rounded-xl text-lg bg-white hover:bg-blue-50 transition">Back</button>
+          <div class="flex flex-col sm:flex-row gap-4 justify-center">
+            <button id="download-plan" class="bg-blue-500 hover:bg-blue-600 text-white font-bold py-3 px-6 rounded-xl text-lg transition">
+              <i class="fa-solid fa-download mr-2"></i>Download Plan
+            </button>
+            <button id="share-plan" class="bg-green-500 hover:bg-green-600 text-white font-bold py-3 px-6 rounded-xl text-lg transition">
+              <i class="fa-solid fa-share mr-2"></i>Share Plan
+            </button>
+            <button id="back-5" type="button" class="border-2 border-blue-400 text-blue-500 font-bold py-3 px-6 rounded-xl text-lg bg-white hover:bg-blue-50 transition">Back</button>
+          </div>
         </div>
       </div>
     </div>
@@ -593,7 +622,11 @@
         </div>
         <div class="p-4">
           <div class="font-extrabold text-lg text-gray-800 mb-1">${item.name}</div>
-          <div class="text-sm text-gray-600 mb-2">${item.description || ''}</div>
+          <div class="text-sm text-gray-600 mb-2">${item.description || item.address || ''}</div>
+          <div class="flex items-center gap-2 mb-2">
+            ${item.rating ? `<div class="flex items-center text-yellow-600 text-xs"><i class='fa-solid fa-star mr-1'></i> ${item.rating}</div>` : ''}
+            ${item.address ? `<div class="text-xs text-gray-500 flex items-center"><i class='fa-solid fa-location-dot mr-1'></i> ${item.address.length > 40 ? item.address.substring(0, 40) + '...' : item.address}</div>` : ''}
+          </div>
           <div class="inline-flex items-center bg-red-500 text-white text-xs px-3 py-1 rounded-full font-semibold"><i class='fa-solid fa-heart mr-1'></i> Popular</div>
         </div>
       `;
@@ -614,8 +647,9 @@
         </div>
         <div class="p-4">
           <div class="flex justify-between items-center mb-1"><span class="font-extrabold text-lg text-gray-800">${item.name}</span><span class="text-yellow-500 text-xs font-bold">${item.rating || '4.5'}</span></div>
-          <div class="text-blue-700 font-bold mb-2">${item.price || '₹2000/night'}</div>
-          <div class="flex flex-wrap gap-2">${item.amenities ? item.amenities.map(a => `<span class='bg-gray-100 text-xs px-2 py-1 rounded'>${a}</span>`).join('') : ''}</div>
+          ${item.address ? `<div class="text-xs text-gray-500 mb-1 flex items-center"><i class='fa-solid fa-location-dot mr-1'></i> ${item.address.length > 50 ? item.address.substring(0, 50) + '...' : item.address}</div>` : ''}
+          <div class="text-blue-700 font-bold mb-2">${item.price || item.priceRange || '₹2000/night'}</div>
+          <div class="flex flex-wrap gap-2">${item.amenities ? item.amenities.map(a => `<span class='bg-gray-100 text-xs px-2 py-1 rounded'>${a}</span>`).join('') : '<span class="bg-gray-100 text-xs px-2 py-1 rounded">WiFi</span><span class="bg-gray-100 text-xs px-2 py-1 rounded">Parking</span>'}</div>
         </div>
       `;
       return card;
@@ -635,9 +669,10 @@
         </div>
         <div class="p-4">
           <div class="font-extrabold text-lg text-gray-800 mb-1">${item.name}</div>
-          <div class="flex justify-between text-xs text-gray-500 mb-1"><span>${item.cuisine || 'Indian'}</span><span class="text-green-600 font-bold">${item.priceRange || '$$'}</span></div>
+          <div class="flex justify-between text-xs text-gray-500 mb-1"><span>${item.cuisine || 'Indian'}</span><span class="text-green-600 font-bold">${item.priceRange || '₹₹'}</span></div>
           <div class="flex items-center text-xs text-yellow-600 mb-1"><i class='fa-solid fa-star mr-1'></i> ${item.rating || '4.5'}</div>
-          <div class="flex items-center text-xs text-gray-600"><i class='fa-solid fa-star text-yellow-500 mr-1'></i> Famous for: ${item.specialty || 'Local Cuisine'}</div>
+          ${item.address ? `<div class="text-xs text-gray-500 mb-1 flex items-center"><i class='fa-solid fa-location-dot mr-1'></i> ${item.address.length > 40 ? item.address.substring(0, 40) + '...' : item.address}</div>` : ''}
+          <div class="flex items-center text-xs text-gray-600"><i class='fa-solid fa-utensils text-orange-500 mr-1'></i> ${item.specialty || item.description || 'Local Cuisine'}</div>
         </div>
       `;
       return card;
@@ -801,7 +836,8 @@
         });
 
         const apiUrl = window.API_BASE_URL || 'http://localhost:3001';
-        const response = await fetch(`${apiUrl}/api/destinations/details?destination=${encodeURIComponent(destinationName)}`);
+        // Try to fetch real data first, fallback to static if not available
+        const response = await fetch(`${apiUrl}/api/destinations/details?destination=${encodeURIComponent(destinationName)}&real=true`);
         const data = await response.json();
 
         // Render the data
@@ -884,53 +920,113 @@
       updateProgressBar(5);
       
       // Populate summary with selected values
-      document.getElementById('summary-destination').textContent = document.getElementById('destination').value || 'Not specified';
+      const startLocation = document.getElementById('start-location').value || 'Not specified';
+      const destination = document.getElementById('destination').value || 'Not specified';
+      const startDate = document.getElementById('start-date').value;
+      const endDate = document.getElementById('end-date').value;
+      
+      document.getElementById('summary-start-location').textContent = startLocation;
+      document.getElementById('summary-destination').textContent = destination;
       document.getElementById('summary-package').textContent = selectedPackage || 'Not selected';
-      document.getElementById('summary-budget').textContent = `₹${budgetSlider.value}/day`;
+      document.getElementById('summary-budget').textContent = `₹${parseInt(budgetSlider.value).toLocaleString('en-IN')}/day`;
       document.getElementById('summary-transport').textContent = selectedTransport || 'Not selected';
       document.getElementById('summary-duration').textContent = `${getDays()} days`;
       document.getElementById('summary-style').textContent = selectedStyle || 'Not selected';
       
-      // Display selected places
+      // Format dates
+      let datesText = '-';
+      if (startDate && endDate) {
+        const start = new Date(startDate);
+        const end = new Date(endDate);
+        datesText = `${start.toLocaleDateString('en-IN', { day: 'numeric', month: 'short' })} - ${end.toLocaleDateString('en-IN', { day: 'numeric', month: 'short', year: 'numeric' })}`;
+      }
+      document.getElementById('summary-dates').textContent = datesText;
+      
+      // Display selected places, hotel, and restaurant
       displaySelectedPlaces();
+      displaySelectedHotel();
+      displaySelectedRestaurant();
     });
     
-    // Function to display selected places in step 5
+    // Function to display selected places (attractions only) in step 5
     function displaySelectedPlaces() {
       const container = document.getElementById('selected-places-container');
       if (!container) return;
       
-      // Get all selected places
-      const allSelected = [
-        ...selectedPlaces.attractions,
-        ...selectedPlaces.hotels,
-        ...selectedPlaces.restaurants,
-        ...selectedPlaces.experiences
-      ];
+      // Get only attractions (destinations)
+      const destinations = selectedPlaces.attractions;
       
-      if (allSelected.length === 0) {
-        container.innerHTML = '<p class="text-gray-500 col-span-full text-center py-4">No places selected yet</p>';
+      if (destinations.length === 0) {
+        container.innerHTML = '<p class="text-gray-500 col-span-full text-center py-4">No destinations selected yet</p>';
         return;
       }
       
       container.innerHTML = '';
-      allSelected.forEach(place => {
+      destinations.forEach(place => {
         const placeCard = document.createElement('div');
         placeCard.className = 'bg-white rounded-lg shadow-md overflow-hidden border border-gray-200';
         placeCard.innerHTML = `
           <div class="relative">
             <img src="${place.image}" alt="${place.name}" class="w-full h-32 object-cover" onerror="this.src='${window.getPlaceImage ? window.getPlaceImage('default') : 'https://images.unsplash.com/photo-1488646953014-85cb44e25828?w=400&h=300&fit=crop'}'" />
-            <div class="absolute top-2 right-2 bg-blue-500 text-white text-xs px-2 py-1 rounded-full font-semibold">
-              ${place.type === 'attractions' ? '📍' : place.type === 'hotels' ? '🏨' : place.type === 'restaurants' ? '🍽️' : '🎯'}
+            <div class="absolute top-2 right-2 bg-red-500 text-white text-xs px-2 py-1 rounded-full font-semibold">
+              📍
             </div>
           </div>
           <div class="p-3">
             <h4 class="font-bold text-gray-800 text-sm mb-1">${place.name}</h4>
-            <p class="text-xs text-gray-600">${place.description || place.type}</p>
+            <p class="text-xs text-gray-600">${place.description || 'Attraction'}</p>
           </div>
         `;
         container.appendChild(placeCard);
       });
+    }
+
+    // Function to display selected hotel
+    function displaySelectedHotel() {
+      const container = document.getElementById('selected-hotel-container');
+      if (!container) return;
+      
+      const hotels = selectedPlaces.hotels;
+      
+      if (hotels.length === 0) {
+        container.innerHTML = '<p class="text-gray-500 text-center py-2">No hotel selected yet</p>';
+        return;
+      }
+      
+      const hotel = hotels[0]; // Show first selected hotel
+      container.innerHTML = `
+        <div class="flex items-center gap-4">
+          <img src="${hotel.image}" alt="${hotel.name}" class="w-20 h-20 object-cover rounded-lg" onerror="this.src='https://images.unsplash.com/photo-1566073771259-6a8506099945?w=200&h=200&fit=crop'" />
+          <div class="flex-1">
+            <h4 class="font-bold text-gray-800 mb-1">${hotel.name}</h4>
+            <p class="text-sm text-gray-600">${hotel.description || 'Selected hotel'}</p>
+          </div>
+        </div>
+      `;
+    }
+
+    // Function to display selected restaurant
+    function displaySelectedRestaurant() {
+      const container = document.getElementById('selected-restaurant-container');
+      if (!container) return;
+      
+      const restaurants = selectedPlaces.restaurants;
+      
+      if (restaurants.length === 0) {
+        container.innerHTML = '<p class="text-gray-500 text-center py-2">No restaurant selected yet</p>';
+        return;
+      }
+      
+      const restaurant = restaurants[0]; // Show first selected restaurant
+      container.innerHTML = `
+        <div class="flex items-center gap-4">
+          <img src="${restaurant.image}" alt="${restaurant.name}" class="w-20 h-20 object-cover rounded-lg" onerror="this.src='https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?w=200&h=200&fit=crop'" />
+          <div class="flex-1">
+            <h4 class="font-bold text-gray-800 mb-1">${restaurant.name}</h4>
+            <p class="text-sm text-gray-600">${restaurant.description || 'Selected restaurant'}</p>
+          </div>
+        </div>
+      `;
     }
     
     back5.addEventListener('click', () => {
@@ -946,6 +1042,33 @@
     
     sharePlan.addEventListener('click', () => {
       alert('Share functionality coming soon!');
+    });
+
+    // Handle Start Trip button
+    const startTripBtn = document.getElementById('start-trip');
+    startTripBtn.addEventListener('click', () => {
+      // Collect all trip data
+      const tripData = {
+        startLocation: document.getElementById('start-location').value,
+        destination: document.getElementById('destination').value,
+        startDate: document.getElementById('start-date').value,
+        endDate: document.getElementById('end-date').value,
+        package: selectedPackage,
+        budget: parseInt(budgetSlider.value),
+        transport: selectedTransport,
+        travelStyle: selectedStyle,
+        duration: getDays(),
+        selectedDestinations: selectedPlaces.attractions,
+        selectedHotel: selectedPlaces.hotels[0] || null,
+        selectedRestaurant: selectedPlaces.restaurants[0] || null,
+        selectedExperiences: selectedPlaces.experiences
+      };
+      
+      // Store trip data in localStorage
+      localStorage.setItem('currentTrip', JSON.stringify(tripData));
+      
+      // Navigate to live trip page
+      window.location.href = 'live-trip.html';
     });
   </script>
 </body>

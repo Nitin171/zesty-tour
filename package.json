@@ -10,7 +10,12 @@
     "debug": "node --inspect=0.0.0.0:9229 backend/server.js",
     "debug:break": "node --inspect-brk=0.0.0.0:9229 backend/server.js"
   },
-  "keywords": ["travel", "tourism", "india", "tour-planner"],
+  "keywords": [
+    "travel",
+    "tourism",
+    "india",
+    "tour-planner"
+  ],
   "author": "",
   "license": "ISC",
   "description": "Zesty Tour - Travel planning application for Indian destinations",
@@ -19,7 +24,9 @@
     "npm": ">=6.0.0"
   },
   "dependencies": {
+    "axios": "^1.13.2",
     "cors": "^2.8.5",
+    "dotenv": "^16.6.1",
     "express": "^5.1.0",
     "sqlite3": "^5.1.7"
   }

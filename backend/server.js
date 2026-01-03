@@ -2,6 +2,7 @@ const express = require('express');
 const cors = require('cors');
 const sqlite3 = require('sqlite3').verbose();
 const path = require('path');
+require('dotenv').config();
 
 const app = express();
 const PORT = process.env.PORT || 3001;
@@ -225,26 +226,60 @@ app.get('/api/destinations/search', (req, res) => {
 
 // Get destination details (attractions, hotels, restaurants, experiences)
 const { getDestinationData, processDestinationData } = require('./destination-data');
+const { fetchDestinationData: fetchRealPlacesData } = require('./places-service');
 
-app.get('/api/destinations/details', (req, res) => {
+app.get('/api/destinations/details', async (req, res) => {
   const destination = req.query.destination || '';
+  const useRealData = req.query.real === 'true' || process.env.USE_REAL_PLACES === 'true';
+  
   if (!destination) {
     return res.status(400).json({ error: 'Destination parameter is required' });
   }
   
-  const data = getDestinationData(destination);
-  if (!data) {
-    return res.json({
-      attractions: [],
-      hotels: [],
-      restaurants: [],
-      experiences: [],
-      message: 'No detailed data available for this destination'
+  try {
+    // Try to fetch real data from APIs first if enabled
+    if (useRealData) {
+      console.log(`Fetching real places data for: ${destination}`);
+      const realData = await fetchRealPlacesData(destination);
+      
+      // If we got real data, return it
+      if (realData && (realData.attractions.length > 0 || realData.hotels.length > 0 || realData.restaurants.length > 0)) {
+        console.log(`✅ Returning real API data for ${destination}`);
+        return res.json(realData);
+      } else {
+        console.log(`⚠️ Real API returned no data, falling back to static data`);
+      }
+    }
+    
+    // Fallback to static data
+    const data = getDestinationData(destination);
+    if (!data) {
+      return res.json({
+        attractions: [],
+        hotels: [],
+        restaurants: [],
+        experiences: [],
+        message: 'No detailed data available for this destination'
+      });
+    }
+    
+    const processedData = processDestinationData(data);
+    res.json(processedData);
+  } catch (error) {
+    console.error('Error fetching destination details:', error);
+    
+    // Fallback to static data on error
+    const data = getDestinationData(destination);
+    if (data) {
+      const processedData = processDestinationData(data);
+      return res.json(processedData);
+    }
+    
+    res.status(500).json({
+      error: 'Failed to fetch destination data',
+      message: error.message
     });
   }
-  
-  const processedData = processDestinationData(data);
-  res.json(processedData);
 });
 
 // Simple password hashing (for production, use bcrypt)
